@@ -27,7 +27,7 @@ TARGET_CPU_ABI := armeabi-v7a
 TARGET_CPU_ABI2 := armeabi
 TARGET_ARCH_VARIANT := armv7-a-neon
 TARGET_ARCH_VARIANT_CPU := cortex-a8
-TARGET_CPU_VARIANT := cortex-a8
+TARGET_CPU_VARIANT := cortex-a9
 
 # Dalvik startup with low memory footprint
 TARGET_ARCH_LOWMEM := true
@@ -127,24 +127,6 @@ BOARD_CUSTOM_VSYNC_IOCTL := true
 
 # Suspend in charger to disable capacitive keys
 BOARD_CHARGER_ENABLE_SUSPEND := true
-
-# SELinux
-BOARD_SEPOLICY_DIRS += \
-    device/samsung/aries-common/sepolicy
-
-BOARD_SEPOLICY_UNION += \
-    bdaddr_read.te \
-    device.te \
-    domain.te \
-    file_contexts \
-    geomagneticd.te \
-    mediaserver.te \
-    orientationd.te \
-    property_contexts \
-    pvrsrvinit.te \
-    rild.te \
-    tvouthack.te \
-    tvoutserver.te \
 
 # Hardware tunables
 BOARD_HARDWARE_CLASS := device/samsung/aries-common/cmhw/

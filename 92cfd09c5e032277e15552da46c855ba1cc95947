@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "ab89d9a9_4562fed7",
+        "filename": "BoardConfigCommon.mk",
+        "patchSetId": 1
+      },
+      "lineNbr": 146,
+      "author": {
+        "id": 1000004
+      },
+      "writtenOn": "2013-11-06T18:14:51Z",
+      "side": 1,
+      "message": "TW_FLASH_FROM_STORAGE isn\u0027t used anymore but won\u0027t hurt anything having it in there.",
+      "revId": "92cfd09c5e032277e15552da46c855ba1cc95947",
+      "serverId": "56841c99-7c94-43d4-bf0b-cb4707e66d55",
+      "unresolved": false
+    }
+  ]
+}

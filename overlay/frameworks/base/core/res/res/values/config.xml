@@ -101,8 +101,10 @@
     <integer name="config_defaultNotificationLedOff">9000</integer>
 
     <string-array name="config_locationProviderPackageNames" translatable="false">
+        <!-- The standard AOSP fused location provider -->
         <item>com.android.location.fused</item>
-        <item>com.google.android.location</item>
+        <!-- The Google provider -->
+        <item>com.google.android.gms</item>
     </string-array>
 
     <!-- XXXXX NOTE THE FOLLOWING RESOURCES USE THE WRONG NAMING CONVENTION.

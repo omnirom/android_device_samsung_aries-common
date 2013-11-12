@@ -32,6 +32,8 @@ TARGET_CPU_VARIANT := cortex-a8
 # Dalvik startup with low memory footprint
 TARGET_ARCH_LOWMEM := true
 
+TARGET_RUNNING_WITHOUT_SYNC_FRAMEWORK := true
+
 TARGET_NO_BOOTLOADER := true
 TARGET_NO_RADIOIMAGE := true
 
@@ -66,7 +68,7 @@ BOARD_NAND_PAGE_SIZE := 4096
 BOARD_NAND_SPARE_SIZE := 128
 BOARD_KERNEL_BASE := 0x32000000
 BOARD_KERNEL_PAGESIZE := 4096
-BOARD_KERNEL_CMDLINE := console=ttyFIQ0,115200 init=/init no_console_suspend
+BOARD_KERNEL_CMDLINE := console=ttyFIQ0,115200 androidboot.selinux=permissive init=/init no_console_suspend
 
 BOARD_BOOTIMAGE_PARTITION_SIZE := 7864320
 BOARD_SYSTEMIMAGE_PARTITION_SIZE := 419430400
@@ -129,6 +131,23 @@ BOARD_CUSTOM_VSYNC_IOCTL := true
 
 # Suspend in charger to disable capacitive keys
 BOARD_CHARGER_ENABLE_SUSPEND := true
+
+# SELinux
+BOARD_SEPOLICY_DIRS += \
+    device/samsung/aries-common/sepolicy
+
+BOARD_SEPOLICY_UNION += \
+    bdaddr_read.te \
+    device.te \
+    file_contexts \
+    geomagneticd.te \
+    mediaserver.te \
+    orientationd.te \
+    property_contexts \
+    pvrsrvinit.te \
+    rild.te \
+    tvouthack.te \
+    tvoutserver.te \
 
 # Hardware tunables
 BOARD_HARDWARE_CLASS := device/samsung/aries-common/cmhw/

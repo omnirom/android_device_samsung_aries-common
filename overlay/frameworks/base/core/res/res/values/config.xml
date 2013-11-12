@@ -92,18 +92,12 @@
     </integer-array>
 
     <integer name="config_deskDockKeepsScreenOn">0</integer>
-    <integer name="config_carDockKeepsScreenOn">1</integer>
 
     <!-- Default color for notification LED is white -->
     <color name="config_defaultNotificationColor">#ffffffff</color>
 
     <!-- Default blink frequency for notification LED is 9 seconds. -->
     <integer name="config_defaultNotificationLedOff">9000</integer>
-
-    <string-array name="config_locationProviderPackageNames" translatable="false">
-        <item>com.android.location.fused</item>
-        <item>com.google.android.location</item>
-    </string-array>
 
     <!-- XXXXX NOTE THE FOLLOWING RESOURCES USE THE WRONG NAMING CONVENTION.
          Please don't copy them, copy anything else. -->
@@ -201,7 +195,4 @@
     <!-- The attenuation in dB applied to the sound effects played
          through AudioManager.playSoundEffect() when no volume is specified. -->
     <integer name="config_soundEffectVolumeDb">-12</integer>
-
-    <!--Boolean to enable stk functionality on Samsung phones-->
-    <bool name="config_samsung_stk">true</bool>
 </resources>

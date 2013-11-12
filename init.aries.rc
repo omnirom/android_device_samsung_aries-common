@@ -9,14 +9,17 @@ on init
     # FIXME: Market checks this variable for space-checking, but downloads to /datadata
     export DOWNLOAD_CACHE /data/download
 
-    mkdir /storage/sdcard0 0000 root root
-    mkdir /storage/sdcard1 0000 root root
+    mkdir /mnt/media_rw/sdcard0 0700 media_rw media_rw
+    mkdir /mnt/media_rw/sdcard1 0700 media_rw media_rw
+    mkdir /storage/sdcard0 0000 system system
+    mkdir /storage/sdcard1 0000 system system
+    mkdir /datadata 0771 system system
+
+    # for backwards compatibility
     symlink /storage/sdcard0 /sdcard
     symlink /storage/sdcard0 /mnt/sdcard
-    symlink /storage/sdcard1 /emmc
-    symlink /storage/sdcard1 /mnt/emmc
-    # FIXME: Remove emmc?
-    mkdir /datadata 0771 system system
+    symlink /storage/sdcard1 /external_sd
+    symlink /storage/sdcard1 /mnt/external_sd
 
     # We will create our own ril-daemon service in class 'core' because the
     # rild doesn't like being killed. (During device encryption.)
@@ -193,8 +196,18 @@ service pvrsrvinit /system/vendor/bin/pvrsrvinit
     group root
     oneshot
 
+# FUSE sdcard daemon for rich permissions (runs as media_rw)
+service fuse_sdcard0 /system/bin/sdcard -u 1023 -g 1023 -d /mnt/media_rw/sdcard0 /storage/sdcard0
+    class late_start
+    disabled
+
+# FUSE sdcard daemon for rich permissions (runs as media_rw)
+service fuse_sdcard1 /system/bin/sdcard -u 1023 -g 1023 /mnt/media_rw/sdcard1 /storage/sdcard1
+     class late_start
+     disabled
+
 service wpa_supplicant /system/bin/wpa_supplicant \
-	-iwlan0 -Dnl80211 -c/data/misc/wifi/wpa_supplicant.conf -e/data/misc/wifi/entropy.bin
+	-iwlan0 -Dnl80211 -c/data/misc/wifi/wpa_supplicant.conf -O/data/misc/wifi/sockets -e/data/misc/wifi/entropy.bin -g@android:wpa_wlan0
 	#   we will start as root and wpa_supplicant will switch to user wifi
 	#   after setting up the capabilities required for WEXT
 	#   user wifi

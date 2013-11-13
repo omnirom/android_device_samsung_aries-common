@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "ab89d9a9_4b3768e1",
+        "filename": "overlay/frameworks/base/core/res/res/values/config.xml",
+        "patchSetId": 3
+      },
+      "lineNbr": 103,
+      "author": {
+        "id": 1000008
+      },
+      "writtenOn": "2013-11-13T01:22:25Z",
+      "side": 0,
+      "message": "All of these lines are redundant with our vendor config - you can just delete them.  :)",
+      "revId": "92cfd09c5e032277e15552da46c855ba1cc95947",
+      "serverId": "56841c99-7c94-43d4-bf0b-cb4707e66d55",
+      "unresolved": false
+    }
+  ]
+}

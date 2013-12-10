@@ -16,6 +16,24 @@
       "revId": "8f8c9252a57726b15daa8b6aaaf9e5129475f156",
       "serverId": "56841c99-7c94-43d4-bf0b-cb4707e66d55",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "6b8b61a3_1c43ec69",
+        "filename": "device_base.mk",
+        "patchSetId": 1
+      },
+      "lineNbr": 170,
+      "author": {
+        "id": 1000123
+      },
+      "writtenOn": "2013-12-10T19:58:23Z",
+      "side": 1,
+      "message": "Would have been nice, but it does not make a difference. I am actually in doubt whether Omni recognizes this prop?",
+      "parentUuid": "6b8b61a3_9cdd3ce3",
+      "revId": "8f8c9252a57726b15daa8b6aaaf9e5129475f156",
+      "serverId": "56841c99-7c94-43d4-bf0b-cb4707e66d55",
+      "unresolved": false
     }
   ]
 }

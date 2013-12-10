@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "6b8b61a3_9cdd3ce3",
+        "filename": "device_base.mk",
+        "patchSetId": 1
+      },
+      "lineNbr": 170,
+      "author": {
+        "id": 1000174
+      },
+      "writtenOn": "2013-12-10T17:33:53Z",
+      "side": 1,
+      "message": "Should not it be?\n\nro.bq.gpu_to_cpu_unsupported\u003d1 \\\nro.zram.default\u003d18",
+      "revId": "8f8c9252a57726b15daa8b6aaaf9e5129475f156",
+      "serverId": "56841c99-7c94-43d4-bf0b-cb4707e66d55",
+      "unresolved": false
+    }
+  ]
+}

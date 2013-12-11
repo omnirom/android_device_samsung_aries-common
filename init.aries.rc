@@ -49,6 +49,7 @@ on fs
     mount yaffs2 mtd@radio /radio
     mount yaffs2 mtd@datadata /datadata
     mount_all fstab.aries
+    swapon_all /fstab.aries
 
     chown radio radio /radio/modem.bin
     exec /system/bin/restorecon -r /radio
@@ -161,6 +162,10 @@ on post-fs
 
 # trigger governor change uevent
     write /sys/devices/system/cpu/cpu0/cpufreq/scaling_governor interactive
+
+# add zram parameters
+    write /proc/sys/vm/page-cluster 0
+    write /proc/sys/vm/swappiness 70
 
 on post-fs-data
     # for migrating download provider's cache out of the small /data/data

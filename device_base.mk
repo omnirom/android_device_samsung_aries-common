@@ -213,5 +213,6 @@ PRODUCT_COPY_FILES += \
 # init.d scripts
 PRODUCT_COPY_FILES += \
     $(LOCAL_PATH)/prebuilt/etc/init.d/60zram:system/etc/init.d/60zram
+    $(LOCAL_PATH)/prebuilt/etc/init.d/00random:system/etc/init.d/00random
 
 $(call inherit-product-if-exists, hardware/broadcom/wlan/bcmdhd/firmware/bcm4329/device-bcm.mk)

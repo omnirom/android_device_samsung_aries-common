@@ -151,7 +151,7 @@ BOARD_SEPOLICY_UNION += \
 #    tvoutserver.te \
 
 # Hardware tunables
-BOARD_HARDWARE_CLASS := device/samsung/aries-common/cmhw/
+# BOARD_HARDWARE_CLASS := device/samsung/aries-common/cmhw/
 
 # Include aries specific stuff
 -include device/samsung/aries-common/Android.mk

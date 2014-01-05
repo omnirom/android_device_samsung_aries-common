@@ -5,11 +5,6 @@ on init
     rmdir /external_sd
     symlink /storage/sdcard1 /external_sd
 
-on init
-    # legacy symlink
-    rmdir /external_sd
-    symlink /storage/sdcard1 /external_sd
-
 on fs
 # set up LVM volumes
     exec /lvm/sbin/lvm vgscan --mknodes --ignorelockingfailure

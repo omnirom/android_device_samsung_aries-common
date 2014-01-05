@@ -32,9 +32,6 @@ TARGET_CPU_VARIANT := cortex-a8
 # Dalvik startup with low memory footprint
 TARGET_ARCH_LOWMEM := true
 
-BOARD_EGL_WORKAROUND_BUG_10194508 := true
-TARGET_RUNNING_WITHOUT_SYNC_FRAMEWORK := true
-
 TARGET_NO_BOOTLOADER := true
 TARGET_NO_RADIOIMAGE := true
 
@@ -105,7 +102,6 @@ BOARD_USES_BML_OVER_MTD := true
 BOARD_CUSTOM_BOOTIMG_MK := device/samsung/aries-common/shbootimg.mk
 TARGET_RECOVERY_FSTAB := device/samsung/aries-common/fstab.aries
 RECOVERY_FSTAB_VERSION := 2
-PRODUCT_COPY_FILES += device/samsung/aries-common/twrp.fstab:recovery/root/etc/twrp.fstab
 
 # Boot Animation
 TARGET_BOOTANIMATION_PRELOAD := true
@@ -126,12 +122,17 @@ USE_OPENGL_RENDERER := true
 TARGET_DISABLE_TRIPLE_BUFFERING := false
 
 BOARD_ALLOW_EGL_HIBERNATION := true
+BOARD_EGL_WORKAROUND_BUG_10194508 := true
+TARGET_RUNNING_WITHOUT_SYNC_FRAMEWORK := true
 
 # hwcomposer: custom vsync ioctl
 BOARD_CUSTOM_VSYNC_IOCTL := true
 
 # Suspend in charger to disable capacitive keys
 BOARD_CHARGER_ENABLE_SUSPEND := true
+
+# Required for TV out
+# COMMON_GLOBAL_CFLAGS += -DNEEDS_VECTORIMPL_SYMBOLS
 
 # SELinux
 BOARD_SEPOLICY_DIRS += \
@@ -161,8 +162,8 @@ DEVICE_RESOLUTION := 480x800
 TW_NO_REBOOT_BOOTLOADER := true
 TW_INTERNAL_STORAGE_PATH := "/sdcard"
 TW_INTERNAL_STORAGE_MOUNT_POINT := "sdcard"
-TW_EXTERNAL_STORAGE_PATH := "/emmc"
-TW_EXTERNAL_STORAGE_MOUNT_POINT := "emmc"
+TW_EXTERNAL_STORAGE_PATH := "/external_sd"
+TW_EXTERNAL_STORAGE_MOUNT_POINT := "external_sd"
 TW_FLASH_FROM_STORAGE := true
 TW_EXCLUDE_SUPERSU := true
 TW_NO_PARTITION_SD_CARD := true

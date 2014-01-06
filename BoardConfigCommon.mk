@@ -143,10 +143,8 @@ BOARD_SEPOLICY_DIRS += \
 
 BOARD_SEPOLICY_UNION += \
     bdaddr_read.te \
-    device.te \
     file_contexts \
     geomagneticd.te \
-    mediaserver.te \
     orientationd.te \
     property_contexts \
     pvrsrvinit.te \
@@ -160,7 +158,7 @@ BOARD_SEPOLICY_UNION += \
 # Include aries specific stuff
 -include device/samsung/aries-common/Android.mk
 
-#TWRP Flags
+# TWRP Flags
 DEVICE_RESOLUTION := 480x800
 TW_NO_REBOOT_BOOTLOADER := true
 TW_INTERNAL_STORAGE_PATH := "/sdcard"
@@ -170,5 +168,6 @@ TW_EXTERNAL_STORAGE_MOUNT_POINT := "external_sd"
 TW_FLASH_FROM_STORAGE := true
 TW_EXCLUDE_SUPERSU := true
 TW_NO_PARTITION_SD_CARD := true
-TW_NO_EXFAT_FUSE := true
 TW_INCLUDE_FB2PNG := true
+TW_MAX_BRIGHTNESS := 255
+TW_BRIGHTNESS_PATH := "/sys/class/backlight/s5p_bl/brightness"

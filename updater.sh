@@ -109,8 +109,8 @@ if /tmp/busybox test -e /dev/block/bml7 ; then
     # make sure sdcard is mounted
     check_mount /mnt/sdcard $SD_PART vfat
 
-    # everything is logged into /mnt/sdcard/cyanogenmod_bml.log
-    set_log /mnt/sdcard/cyanogenmod_bml.log
+    # everything is logged into /mnt/sdcard/omni_bml.log
+    set_log /mnt/sdcard/omni_bml.log
 
     if $IS_GSM ; then
         # make sure efs is mounted
@@ -126,13 +126,13 @@ if /tmp/busybox test -e /dev/block/bml7 ; then
         /tmp/busybox cp -R /efs/ /mnt/sdcard/backup
     fi
 
-    # write the package path to sdcard cyanogenmod.cfg
+    # write the package path to sdcard omni.cfg
     if /tmp/busybox test -n "$UPDATE_PACKAGE" ; then
-        /tmp/busybox echo `fix_package_location $UPDATE_PACKAGE` > /mnt/sdcard/cyanogenmod.cfg
+        /tmp/busybox echo `fix_package_location $UPDATE_PACKAGE` > /mnt/sdcard/omni.cfg
     fi
 
     # Scorch any ROM Manager settings to require the user to reflash recovery
-    /tmp/busybox rm -f /mnt/sdcard/clockworkmod/.settings
+    /tmp/busybox rm -f /mnt/sdcard/TWRP/.settings
 
     # write new kernel to boot partition
     /tmp/flash_image boot /tmp/boot.img
@@ -151,18 +151,18 @@ elif /tmp/busybox test `/tmp/busybox cat /sys/class/mtd/mtd2/size` != "$MTD_SIZE
     # make sure sdcard is mounted
     check_mount /sdcard $SD_PART vfat
 
-    # everything is logged into /sdcard/cyanogenmod_mtd_old.log
-    set_log /sdcard/cyanogenmod_mtd_old.log
+    # everything is logged into /sdcard/omni_mtd_old.log
+    set_log /sdcard/omni_mtd_old.log
 
     warn_repartition
 
-    # write the package path to sdcard cyanogenmod.cfg
+    # write the package path to sdcard omni.cfg
     if /tmp/busybox test -n "$UPDATE_PACKAGE" ; then
-        /tmp/busybox echo `fix_package_location $UPDATE_PACKAGE` > /sdcard/cyanogenmod.cfg
+        /tmp/busybox echo `fix_package_location $UPDATE_PACKAGE` > /sdcard/omni.cfg
     fi
 
     # inform the script that this is an old mtd upgrade
-    /tmp/busybox echo 1 > /sdcard/cyanogenmod.mtdupd
+    /tmp/busybox echo 1 > /sdcard/omni.mtdupd
 
     # clear datadata
     /tmp/busybox umount -l /datadata
@@ -187,8 +187,8 @@ elif /tmp/busybox test -e /dev/block/mtdblock0 ; then
     # make sure sdcard is mounted
     check_mount /sdcard $SD_PART vfat
 
-    # everything is logged into /sdcard/cyanogenmod.log
-    set_log /sdcard/cyanogenmod_mtd.log
+    # everything is logged into /sdcard/omni.log
+    set_log /sdcard/omni_mtd.log
 
     # unmount system and data (recovery seems to expect system to be unmounted)
     /tmp/busybox umount -l /system
@@ -231,7 +231,7 @@ elif /tmp/busybox test -e /dev/block/mtdblock0 ; then
         /tmp/busybox umount -l /dev/block/mtdblock5
     fi
 
-    if ! /tmp/busybox test -e /sdcard/cyanogenmod.cfg ; then
+    if ! /tmp/busybox test -e /sdcard/omni.cfg ; then
         # update install - flash boot image then skip back to updater-script
         # (boot image is already flashed for first time install or old mtd upgrade)
 
@@ -245,11 +245,11 @@ elif /tmp/busybox test -e /dev/block/mtdblock0 ; then
         exit 0
     fi
 
-    # if a cyanogenmod.cfg exists, then this is a first time install
+    # if a omni.cfg exists, then this is a first time install
     # let's format the volumes and restore radio and efs
 
-    # remove the cyanogenmod.cfg to prevent this from looping
-    /tmp/busybox rm -f /sdcard/cyanogenmod.cfg
+    # remove the omni.cfg to prevent this from looping
+    /tmp/busybox rm -f /sdcard/omni.cfg
 
     # setup lvm volumes
     /lvm/sbin/lvm pvcreate $MMC_PART
@@ -259,11 +259,11 @@ elif /tmp/busybox test -e /dev/block/mtdblock0 ; then
     # restart into recovery so the user can install further packages before booting
     /tmp/busybox touch /cache/.startrecovery
 
-    if /tmp/busybox test -e /sdcard/cyanogenmod.mtdupd ; then
+    if /tmp/busybox test -e /sdcard/omni.mtdupd ; then
         # this is an upgrade with changed MTD mapping for /data, /cache, /system
         # so return to updater-script after formatting them
 
-        /tmp/busybox rm -f /sdcard/cyanogenmod.mtdupd
+        /tmp/busybox rm -f /sdcard/omni.mtdupd
 
         exit 0
     fi

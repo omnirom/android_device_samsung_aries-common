@@ -64,6 +64,10 @@ PRODUCT_COPY_FILES += \
 	device/samsung/aries-common/sec_jack.kl:system/usr/keylayout/sec_jack.kl \
 	device/samsung/aries-common/s3c-keypad.kl:system/usr/keylayout/s3c-keypad.kl
 
+# Prebuilt init.d
+PRODUCT_COPY_FILES += \
+	device/samsung/aries-common/prebuilt/etc/init.d/50selinuxrelabel:system/etc/init.d/50selinuxrelabel
+
 # Generated kcm keymaps
 PRODUCT_PACKAGES := \
        cypress-touchkey.kcm \
@@ -165,9 +169,12 @@ PRODUCT_PROPERTY_OVERRIDES += \
        ro.telephony.ril_class=SamsungExynos3RIL \
        ro.telephony.ril.v3=icccardstatus,datacall,signalstrength,facilitylock \
        mobiledata.interfaces=pdp0,eth0,gprs,ppp0 \
-       ro.vold.switchablepair=/mnt/emmc,/mnt/sdcard \
+       ro.vold.switchablepair=/mnt/external_sd,/mnt/sdcard \
        ro.bq.gpu_to_cpu_unsupported=1 \
-       ro.config.low_ram=true
+       ro.config.low_ram=true \
+       ro.ril.hsxpa=1 \
+       ro.ril.gprsclass=10 \
+       ro.adb.qemud=1
 
 # SGX540 is slower with the scissor optimization enabled
 PRODUCT_PROPERTY_OVERRIDES += \

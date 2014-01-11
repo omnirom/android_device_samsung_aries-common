@@ -132,13 +132,13 @@ BOARD_CUSTOM_VSYNC_IOCTL := true
 BOARD_CHARGER_ENABLE_SUSPEND := true
 
 # Required for TV out
-# COMMON_GLOBAL_CFLAGS += -DNEEDS_VECTORIMPL_SYMBOLS
+# COMMON_GLOBAL_CFLAGS := -DNEEDS_VECTORIMPL_SYMBOLS
 
 # SELinux
-BOARD_SEPOLICY_DIRS += \
+BOARD_SEPOLICY_DIRS := \
     device/samsung/aries-common/sepolicy
 
-BOARD_SEPOLICY_UNION += \
+BOARD_SEPOLICY_UNION := \
     bdaddr_read.te \
     device.te \
     file_contexts \
@@ -147,7 +147,13 @@ BOARD_SEPOLICY_UNION += \
     orientationd.te \
     property_contexts \
     pvrsrvinit.te \
-    rild.te
+    rild.te \
+    file.te \
+    fs_use \
+    genfs_contexts \
+    installd.te \
+    vold.te \
+    mac_permissions.xml
 #    tvouthack.te \
 #    tvoutserver.te \
 
@@ -159,6 +165,8 @@ BOARD_SEPOLICY_UNION += \
 
 #TWRP Flags
 DEVICE_RESOLUTION := 480x800
+RECOVERY_GRAPHICS_USE_LINELENGTH := true
+HAVE_SELINUX := true
 TW_NO_REBOOT_BOOTLOADER := true
 TW_INTERNAL_STORAGE_PATH := "/sdcard"
 TW_INTERNAL_STORAGE_MOUNT_POINT := "sdcard"

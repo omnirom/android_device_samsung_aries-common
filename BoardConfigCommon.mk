@@ -109,7 +109,7 @@ TARGET_BOOTANIMATION_TEXTURE_CACHE := true
 TARGET_BOOTANIMATION_USE_RGB565 := true
 
 # SkTextBox for libtvout
-# BOARD_USES_SKTEXTBOX := true
+BOARD_USES_SKTEXTBOX := true
 
 # Hardware rendering
 USE_OPENGL_RENDERER := true
@@ -148,9 +148,9 @@ BOARD_SEPOLICY_UNION += \
     orientationd.te \
     property_contexts \
     pvrsrvinit.te \
-    rild.te
-#    tvouthack.te \
-#    tvoutserver.te \
+    rild.te \
+    tvouthack.te \
+    tvoutserver.te \
 
 # Hardware tunables
 # BOARD_HARDWARE_CLASS := device/samsung/aries-common/cmhw/

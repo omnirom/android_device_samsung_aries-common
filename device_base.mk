@@ -119,8 +119,8 @@ PRODUCT_PACKAGES += \
 # Device-specific packages
 PRODUCT_PACKAGES += \
     SamsungServiceMode \
-    tvouthack
-#   AriesParts
+    tvouthack \
+    DeviceSettings
 
 # Libnetcmd
 PRODUCT_PACKAGES += \

@@ -70,7 +70,7 @@ fix_package_location() {
 }
 
 # ui_print by Chainfire
-OUTFD=$(busybox ps | busybox grep -v "grep" | busybox grep -o -E "update_binary(.*)" | busybox cut -d " " -f 3);
+OUTFD=$(busybox ps | busybox grep -v "grep" | busybox grep -o -E "/tmp/updater .*" | busybox cut -d " " -f 3);
 ui_print() {
   if [ $OUTFD != "" ]; then
     echo "ui_print ${1} " 1>&$OUTFD;

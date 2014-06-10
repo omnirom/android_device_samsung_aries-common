@@ -117,9 +117,6 @@ BOARD_CUSTOM_GRAPHICS := ../../../device/samsung/aries-common/recovery/graphics.
 TARGET_BOOTANIMATION_PRELOAD := true
 TARGET_BOOTANIMATION_USE_RGB565 := true
 
-# SkTextBox for libtvout
-BOARD_USES_SKTEXTBOX := true
-
 # Hardware rendering
 USE_OPENGL_RENDERER := true
 
@@ -136,9 +133,6 @@ TARGET_RUNNING_WITHOUT_SYNC_FRAMEWORK := true
 
 # hwcomposer: custom vsync ioctl
 BOARD_CUSTOM_VSYNC_IOCTL := true
-
-# Required for TV out
-COMMON_GLOBAL_CFLAGS += -DNEEDS_VECTORIMPL_SYMBOLS
 
 # Screenrecord
 BOARD_SCREENRECORD_LANDSCAPE_ONLY := true

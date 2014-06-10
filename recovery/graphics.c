@@ -28,8 +28,7 @@
 #include <linux/kd.h>
 
 #include <pixelflinger/pixelflinger.h>
-
-#include "roboto_10x18.h"
+#include "font_10x18.h"
 
 #include "minui.h"
 
@@ -162,7 +161,7 @@ void gr_font_size(int *x, int *y)
     *y = gr_font->cheight;
 }
 
-int gr_text(int x, int y, const char *s, int bold)
+int gr_text(int x, int y, const char *s, ...)
 {
     GGLContext *gl = gr_context;
     GRFont *font = gr_font;

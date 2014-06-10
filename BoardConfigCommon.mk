@@ -96,12 +96,19 @@ TARGET_USE_CUSTOM_LUN_FILE_PATH := "/sys/devices/platform/s3c-usbgadget/gadget/l
 # Recovery
 TARGET_USERIMAGES_USE_EXT4 := true
 BOARD_HAS_NO_SELECT_BUTTON := true
-# Disable for TWRP
-# BOARD_CUSTOM_GRAPHICS := ../../../device/samsung/aries-common/recovery/graphics.c
 BOARD_USES_BML_OVER_MTD := true
 BOARD_CUSTOM_BOOTIMG_MK := device/samsung/aries-common/shbootimg.mk
 TARGET_RECOVERY_FSTAB := device/samsung/aries-common/fstab.aries
 RECOVERY_FSTAB_VERSION := 2
+
+# Open Source Charging Mode
+BOARD_POWER_SUPPLY_PATH := /sys/class/power_supply
+BOARD_BATTERY_SYSFS_PATH := $(BOARD_POWER_SUPPLY_PATH)/battery
+BOARD_AC_SYSFS_PATH := $(BOARD_POWER_SUPPLY_PATH)/ac
+BOARD_USB_SYSFS_PATH := $(BOARD_POWER_SUPPLY_PATH)/usb
+BOARD_CHARGER_ENABLE_SUSPEND := true
+BOARD_CHARGER_DIM_SCREEN_BRIGHTNESS := true
+BOARD_CUSTOM_GRAPHICS := ../../../device/samsung/aries-common/recovery/graphics.c
 
 # Boot Animation
 TARGET_BOOTANIMATION_PRELOAD := true
@@ -124,9 +131,6 @@ TARGET_RUNNING_WITHOUT_SYNC_FRAMEWORK := true
 
 # hwcomposer: custom vsync ioctl
 BOARD_CUSTOM_VSYNC_IOCTL := true
-
-# Suspend in charger to disable capacitive keys
-BOARD_CHARGER_ENABLE_SUSPEND := true
 
 # Screenrecord
 BOARD_SCREENRECORD_LANDSCAPE_ONLY := true

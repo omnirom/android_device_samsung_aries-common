@@ -108,6 +108,9 @@ TARGET_BOOTANIMATION_PRELOAD := true
 TARGET_BOOTANIMATION_TEXTURE_CACHE := true
 TARGET_BOOTANIMATION_USE_RGB565 := true
 
+# SkTextBox for libtvout
+BOARD_USES_SKTEXTBOX := true
+
 # Hardware rendering
 USE_OPENGL_RENDERER := true
 
@@ -128,6 +131,9 @@ BOARD_CUSTOM_VSYNC_IOCTL := true
 # Suspend in charger to disable capacitive keys
 BOARD_CHARGER_ENABLE_SUSPEND := true
 
+# Required for TV out
+COMMON_GLOBAL_CFLAGS += -DNEEDS_VECTORIMPL_SYMBOLS
+
 # Screenrecord
 BOARD_SCREENRECORD_LANDSCAPE_ONLY := true
 
@@ -142,7 +148,9 @@ BOARD_SEPOLICY_UNION += \
     orientationd.te \
     property_contexts \
     pvrsrvinit.te \
-    rild.te
+    rild.te \
+    tvouthack.te \
+    tvoutserver.te \
 
 # Hardware tunables
 # BOARD_HARDWARE_CLASS := device/samsung/aries-common/cmhw/

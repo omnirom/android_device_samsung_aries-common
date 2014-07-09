@@ -174,7 +174,8 @@ PRODUCT_PROPERTY_OVERRIDES += \
     ro.ril.emc.mode=2 \
     ro.phone_storage=1 \
     ro.additionalmounts=/storage/sdcard1 \
-    ro.config.low_ram=true
+    ro.config.low_ram=true \
+    ro.ksm.default=1
 
 # SGX540 is slower with the scissor optimization enabled
 PRODUCT_PROPERTY_OVERRIDES += \

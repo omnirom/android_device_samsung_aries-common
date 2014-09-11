@@ -19,6 +19,11 @@
 
 	<PreferenceCategory
     	android:title="@string/category_screen_title">
+	    <!-- Color tuning -->
+	    <org.omnirom.device.ColorTuningPreference 
+	        android:key="color_tuning"
+	        android:title="@string/color_tuning_title_head"
+	        android:summary="@string/color_tuning_summary_head" />
 	    <!-- mDNIe Options -->
 	    <ListPreference
 	        android:key="mdnie"
@@ -100,5 +105,14 @@
                 android:summaryOff="@string/deskdock_audio_summary_off"
                 android:persistent="true" />
         </PreferenceCategory>
+
+        <PreferenceCategory
+            android:title="@string/category_vibration_title">
+            <!-- Vibration -->
+            <org.omnirom.device.VibrationPreference
+                android:key="vibration"
+                android:title="@string/vibration_title_head"
+                android:summary="@string/vibration_summary_head" />
+         </PreferenceCategory>
 
 </PreferenceScreen>

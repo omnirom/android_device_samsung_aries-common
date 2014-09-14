@@ -31,6 +31,14 @@ set_log() {
 mkdir -p ${ZRAM_PATH}
 set_log ${ZRAM_PATH}/init.log
 
+# loading dependencies
+#
+insmod /system/lib/modules/lzo_compress.ko
+insmod /system/lib/modules/lzo_decompress.ko
+insmod /system/lib/modules/lz4_compress.ko
+insmod /system/lib/modules/lz4_decompress.ko
+insmod /system/lib/modules/zsmalloc.ko
+
 # this creates n zram devices: /dev/block/zram{0,1,2,3,4}
 # default value is 1
 #

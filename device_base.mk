@@ -166,17 +166,13 @@ PRODUCT_PROPERTY_OVERRIDES += \
     ro.telephony.ril_class=SamsungExynos3RIL \
     ro.telephony.ril.v3=icccardstatus,datacall,signalstrength,facilitylock \
     mobiledata.interfaces=pdp0,eth0,gprs,ppp0 \
-    ro.vold.switchablepair=/mnt/external_sd,/mnt/sdcard \
     ro.bq.gpu_to_cpu_unsupported=1 \
     ro.ril.hsxpa=1 \
     ro.ril.gprsclass=10 \
     ro.adb.qemud=1 \
     ro.ril.enable.managed.roaming=1 \
     ro.ril.emc.mode=2 \
-    ro.phone_storage=1 \
-    ro.additionalmounts=/storage/sdcard1 \
-    ro.config.low_ram=true \
-    ro.ksm.default=1
+    ro.config.low_ram=true
 
 # SGX540 is slower with the scissor optimization enabled
 PRODUCT_PROPERTY_OVERRIDES += \
@@ -196,18 +192,9 @@ PRODUCT_PROPERTY_OVERRIDES += \
     ro.kernel.android.checkjni=0 \
     dalvik.vm.checkjni=false
 
-# Override /proc/sys/vm/dirty_ratio on UMS
-PRODUCT_PROPERTY_OVERRIDES += \
-    ro.vold.umsdirtyratio=20
-
-# We have sacrificed /cache for a larger /system, so it's not large enough for dalvik cache
-PRODUCT_PROPERTY_OVERRIDES += \
-    dalvik.vm.dexopt-data-only=1
-
 # Set default USB interface and default to internal SD as /sdcard
 PRODUCT_DEFAULT_PROPERTY_OVERRIDES += \
-    persist.sys.usb.config=mtp \
-    persist.sys.vold.switchexternal=1
+    persist.sys.usb.config=mtp
 
 include frameworks/native/build/phone-hdpi-512-dalvik-heap.mk
 

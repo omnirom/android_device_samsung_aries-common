@@ -327,3 +327,9 @@ void gr_fb_blank(bool blank)
     if (ret < 0)
         perror("ioctl(): blank");
 }
+
+void gr_clear()
+{
+    gr_fb_blank(true);
+}
+

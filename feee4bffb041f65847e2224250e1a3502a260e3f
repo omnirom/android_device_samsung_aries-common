@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "2b432935_b175b895",
+        "filename": "releasetools.py",
+        "patchSetId": 1
+      },
+      "lineNbr": 32,
+      "author": {
+        "id": 1000515
+      },
+      "writtenOn": "2014-11-25T23:44:40Z",
+      "side": 1,
+      "message": "use TARGET_DIR instead",
+      "range": {
+        "startLine": 32,
+        "startChar": 37,
+        "endLine": 32,
+        "endChar": 50
+      },
+      "revId": "feee4bffb041f65847e2224250e1a3502a260e3f",
+      "serverId": "56841c99-7c94-43d4-bf0b-cb4707e66d55",
+      "unresolved": false
+    }
+  ]
+}

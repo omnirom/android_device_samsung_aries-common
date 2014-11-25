@@ -196,7 +196,7 @@ static int64_t curr_time_ms(void)
 static void clear_screen(void)
 {
     gr_color(0, 0, 0, 255);
-    gr_fill(0, 0, gr_fb_width(), gr_fb_height());
+    gr_clear();
 };
 
 #define MAX_KLOG_WRITE_BUF_SZ 256

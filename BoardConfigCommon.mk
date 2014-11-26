@@ -142,19 +142,19 @@ COMMON_GLOBAL_CFLAGS += -DNEEDS_VECTORIMPL_SYMBOLS
 BOARD_SCREENRECORD_LANDSCAPE_ONLY := true
 
 # SELinux
-BOARD_SEPOLICY_DIRS += \
-    device/samsung/aries-common/sepolicy
+#BOARD_SEPOLICY_DIRS += \
+#    device/samsung/aries-common/sepolicy
 
-BOARD_SEPOLICY_UNION += \
-    bdaddr_read.te \
-    file_contexts \
-    geomagneticd.te \
-    orientationd.te \
-    property_contexts \
-    pvrsrvinit.te \
-    rild.te \
-    tvouthack.te \
-    tvoutserver.te \
+#BOARD_SEPOLICY_UNION += \
+#    bdaddr_read.te \
+#    file_contexts \
+#    geomagneticd.te \
+#    orientationd.te \
+#    property_contexts \
+#    pvrsrvinit.te \
+#    rild.te \
+#    tvouthack.te \
+#    tvoutserver.te \
 
 # Hardware tunables
 # BOARD_HARDWARE_CLASS := device/samsung/aries-common/cmhw/

@@ -1,5 +1,22 @@
 #!/sbin/busybox sh
 #
+# Copyright (C) 2008 The Android Open-Source Project
+# Copyright (C) 2012 CyanongenMod
+# Copyright (C) 2013 OmniROM Project
+#
+# Licensed under the Apache License, Version 2.0 (the "License");
+# you may not use this file except in compliance with the License.
+# You may obtain a copy of the License at
+#
+#      http://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
+#
+#
 # bml_over_mtd.sh
 # Take care of bad blocks while flashing kernel image to boot partition
 #
@@ -11,10 +28,11 @@ RESERVOIR_START_BLOCK=$4
 IMAGE=$5
 
 # remove old log
-rm -rf /sdcard/bml_over_mtd.log
+rm -rf /tmp/omni/bml_over_mtd.log
 
-# everything is logged into /sdcard/bml_over_mtd.log
-exec >> /sdcard/bml_over_mtd.log 2>&1
+# everything is logged into /tmp/omni/bml_over_mtd.log
+mkdir -p /tmp/omni
+exec >> /tmp/omni/bml_over_mtd.log 2>&1
 
 set -x
 export PATH=/:/sbin:/system/xbin:/system/bin:$PATH

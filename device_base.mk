@@ -57,6 +57,8 @@ PRODUCT_COPY_FILES += \
     device/samsung/aries-common/lpm.rc:root/lpm.rc \
     device/samsung/aries-common/ueventd.aries.rc:root/ueventd.aries.rc \
     device/samsung/aries-common/setupdatadata.sh:root/sbin/setupdatadata.sh \
+    device/samsung/aries-common/bml_over_mtd.sh:bml_over_mtd.sh \
+    device/samsung/aries-common/updater.sh:updater.sh \
     device/samsung/aries-common/twrp.fstab:recovery/root/etc/twrp.fstab
 
 # Prebuilt kl keymaps
@@ -108,10 +110,18 @@ PRODUCT_PACKAGES += \
     audio.usb.default \
     libs3cjpeg
 
+# Wi-Fi
+PRODUCT_PACKAGES += \
+    libwpa_client \
+    hostapd \
+    hostapd_default.conf \
+    dhcpcd.conf \
+    wpa_supplicant \
+    wpa_supplicant.conf
+
 # PVR
 PRODUCT_PACKAGES += \
-    pvrsrvinit \
-    libPVRScopeServices.so
+    pvrsrvinit
 
 PRODUCT_COPY_FILES += \
     device/samsung/aries-common/libaudio/audio_policy.conf:system/etc/audio_policy.conf \
@@ -152,13 +162,16 @@ PRODUCT_COPY_FILES += \
     frameworks/native/data/etc/android.hardware.sensor.light.xml:system/etc/permissions/android.hardware.sensor.light.xml \
     frameworks/native/data/etc/android.hardware.touchscreen.multitouch.jazzhand.xml:system/etc/permissions/android.hardware.touchscreen.multitouch.jazzhand.xml \
     frameworks/native/data/etc/android.software.sip.voip.xml:system/etc/permissions/android.software.sip.voip.xml \
-    frameworks/native/data/etc/android.hardware.usb.accessory.xml:system/etc/permissions/android.hardware.usb.accessory.xml \
-    packages/wallpapers/LivePicker/android.software.live_wallpaper.xml:system/etc/permissions/android.software.live_wallpaper.xml
+    frameworks/native/data/etc/android.hardware.usb.accessory.xml:system/etc/permissions/android.hardware.usb.accessory.xml
 
 # The OpenGL ES API level that is natively supported by this device.
 # This is a 16.16 fixed point number
 PRODUCT_PROPERTY_OVERRIDES := \
-    ro.opengles.version=131072
+    ro.opengles.version=131072 \
+    debug.hwui.render_dirty_regions=false \
+    ro.zygote.disable_gl_preload=true
+
+PRODUCT_TAGS += dalvik.gc.type-precise
 
 # Support for Browser's saved page feature. This allows
 # for pages saved on previous versions of the OS to be
@@ -174,7 +187,6 @@ PRODUCT_PROPERTY_OVERRIDES += \
     ro.telephony.ril_class=SamsungExynos3RIL \
     ro.telephony.ril.v3=icccardstatus,datacall,signalstrength,facilitylock \
     mobiledata.interfaces=pdp0,eth0,gprs,ppp0 \
-    ro.vold.switchablepair=/mnt/external_sd,/mnt/sdcard \
     ro.bq.gpu_to_cpu_unsupported=1 \
     ro.ril.hsxpa=1 \
     ro.ril.gprsclass=10 \
@@ -184,7 +196,11 @@ PRODUCT_PROPERTY_OVERRIDES += \
     ro.phone_storage=1 \
     ro.additionalmounts=/storage/sdcard1 \
     ro.config.low_ram=true \
-    ro.ksm.default=1
+    ro.ksm.default=1 \
+    setenforce=0 \
+    ro.boot.selinux=0 \
+    selinux.reload_policy=0
+
 
 # SGX540 is slower with the scissor optimization enabled
 PRODUCT_PROPERTY_OVERRIDES += \
@@ -201,28 +217,12 @@ PRODUCT_PROPERTY_OVERRIDES += \
 # before they have a chance to cause problems.
 # Default=true for development builds, set by android buildsystem.
 PRODUCT_PROPERTY_OVERRIDES += \
-    ro.kernel.android.checkjni=0 \
-    dalvik.vm.checkjni=false
-
-# Override /proc/sys/vm/dirty_ratio on UMS
-PRODUCT_PROPERTY_OVERRIDES += \
-    ro.vold.umsdirtyratio=20
-
-# We have sacrificed /cache for a larger /system, so it's not large enough for dalvik cache
-PRODUCT_PROPERTY_OVERRIDES += \
-    dalvik.vm.dexopt-data-only=1
+    ro.kernel.android.checkjni=0
 
 # Set default USB interface and default to internal SD as /sdcard
 PRODUCT_DEFAULT_PROPERTY_OVERRIDES += \
-    persist.sys.usb.config=mtp \
-    persist.sys.vold.switchexternal=1
+    persist.sys.usb.config=mtp
 
 include frameworks/native/build/phone-hdpi-512-dalvik-heap.mk
-
-# We have enough storage space to hold precise GC data
-PRODUCT_TAGS += dalvik.gc.type-precise
-
-PRODUCT_COPY_FILES += \
-    device/samsung/aries-common/updater.sh:updater.sh
 
 $(call inherit-product-if-exists, hardware/broadcom/wlan/bcmdhd/firmware/bcm4329/device-bcm.mk)

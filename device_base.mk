@@ -83,7 +83,10 @@ PRODUCT_PACKAGES += \
 PRODUCT_COPY_FILES += \
     hardware/samsung/exynos3/s5pc110/sec_mm/sec_omx/sec_omx_core/secomxregistry:system/etc/secomxregistry \
     device/samsung/aries-common/media_profiles.xml:system/etc/media_profiles.xml \
-    device/samsung/aries-common/media_codecs.xml:system/etc/media_codecs.xml
+    device/samsung/aries-common/media_codecs.xml:system/etc/media_codecs.xml \
+    frameworks/av/media/libstagefright/data/media_codecs_google_audio.xml:system/etc/media_codecs_google_audio.xml \
+    frameworks/av/media/libstagefright/data/media_codecs_google_telephony.xml:system/etc/media_codecs_google_telephony.xml \
+    frameworks/av/media/libstagefright/data/media_codecs_google_video.xml:system/etc/media_codecs_google_video.xml
 
 # These are the OpenMAX IL modules
 PRODUCT_PACKAGES += \

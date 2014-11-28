@@ -3,16 +3,17 @@
 # The filesystem that contains the filesystem checker binary (typically /system) cannot
 # specify MF_CHECK, and must come before any filesystems that do specify MF_CHECK
 
-recovery                    /recovery           mtd         defaults                                            recoveryonly
-boot                        /boot               mtd         defaults                                            recoveryonly
-radio                       /radio              mtd         defaults                                            recoveryonly
-cache                       /cache              yaffs2      defaults                                            recoveryonly
-datadata                    /datadata           yaffs2      defaults                                            recoveryonly
+recovery                    /recovery           yaffs2         defaults                                            recoveryonly
+boot                        /boot               yaffs2         defaults                                            recoveryonly
+radio                       /radio              yaffs2         defaults                                            recoveryonly
+cache                       /cache              yaffs2         defaults                                            recoveryonly
+datadata                    /datadata           yaffs2         defaults                                            recoveryonly
 
 # LVM Volumes
 /dev/lvpool/system         /system               ext4      ro   wait
 /dev/lvpool/userdata       /data                 ext4      noatime,nodev,nosuid,nomblk_io_submit,errors=panic   wait,encryptable=footer,length=-16384
+/dev/lvpool/swap           none                  swap      defaults,discard            swapprio=1
 
-/devices/platform/s3c-sdhci.0/mmc_host/mmc0 auto auto defaults voldmanaged=sdcard0:1,nonremovable,noemulatedsd
-/devices/platform/s3c-sdhci.2/mmc_host/mmc2 auto auto defaults voldmanaged=sdcard1:auto
+/devices/platform/s3c-sdhci.0/mmc_host/mmc0* auto auto defaults voldmanaged=sdcard0:1,nonremovable,noemulatedsd
+/devices/platform/s3c-sdhci.2/mmc_host/mmc2* auto auto defaults voldmanaged=sdcard1:auto
 

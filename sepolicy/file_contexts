@@ -12,7 +12,7 @@
 /dev/s3c2410_serial0                                u:object_r:hci_attach_dev:s0
 
 # GFX
-/system/vendor/bin/pvrsrvinit                       u:object_r:pvrsrvinit_exec:s0
+/system/bin/pvrsrvinit                              u:object_r:pvrsrvinit_exec:s0
 
 # Sensors
 /system/vendor/bin/geomagneticd                     u:object_r:geomagneticd_exec:s0

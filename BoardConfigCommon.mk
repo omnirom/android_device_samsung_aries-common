@@ -120,6 +120,9 @@ TARGET_BOOTANIMATION_USE_RGB565 := true
 # Hardware rendering
 USE_OPENGL_RENDERER := true
 
+# LIBAUDIO  Workaround
+TARGET_USE_OLD_LIBAUDIO := true
+
 # TARGET_DISABLE_TRIPLE_BUFFERING can be used to disable triple buffering
 # on per target basis. On crespo it is possible to do so in theory
 # to save memory, however, there are currently some limitations in the

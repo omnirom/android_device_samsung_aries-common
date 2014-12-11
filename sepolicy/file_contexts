@@ -6,13 +6,28 @@
 # RIL
 /dev/s3c2410_serial3                                u:object_r:radio_device:s0
 /dev/onedram                                        u:object_r:radio_device:s0
+/dev/modem_ctl                                      u:object_r:radio_device:s0
+/dev/modem_fmt                                      u:object_r:radio_device:s0
+/dev/modem_rfs                                      u:object_r:radio_device:s0
+/dev/mtd/mtd5                                       u:object_r:radio_device:s0
+/dev/mtd/mtd5ro                                     u:object_r:radio_device:s0
+/dev/block/mtdblock5                                u:object_r:radio_device:s0
 /radio(/.*)?                                        u:object_r:rild_file:s0
+
+# camera
+/dev/video0                                         u:object_r:camera_device:s0
+/dev/video1                                         u:object_r:camera_device:s0
+/dev/video2                                         u:object_r:camera_device:s0
+/dev/s3c-jpg                                        u:object_r:camera_device:s0
+/dev/s3c-mem                                        u:object_r:camera_device:s0
+/dev/s3c-mfc                                        u:object_r:graphics_device:s0
+/dev/i2c-1                                          u:object_r:graphics_device:s0
 
 # Bluetooth
 /dev/s3c2410_serial0                                u:object_r:hci_attach_dev:s0
 
 # GFX
-/system/vendor/bin/pvrsrvinit                       u:object_r:pvrsrvinit_exec:s0
+/system/bin/pvrsrvinit                              u:object_r:pvrsrvinit_exec:s0
 
 # Sensors
 /system/vendor/bin/geomagneticd                     u:object_r:geomagneticd_exec:s0

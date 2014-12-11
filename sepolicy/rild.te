@@ -12,3 +12,5 @@ allow rild rild_file:file r_file_perms;
 
 allow rild self:netlink_kobject_uevent_socket *;
 allow rild self:socket *;
+allow rild radio_data_file:dir setattr;
+allow rild self:process execmem;

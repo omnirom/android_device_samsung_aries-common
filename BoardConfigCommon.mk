@@ -144,9 +144,16 @@ BOARD_SCREENRECORD_LANDSCAPE_ONLY := true
 BOARD_SEPOLICY_DIRS += \
     device/samsung/aries-common/sepolicy
 
-BOARD_SEPOLICY_REPLACE += \
-    domain.te \
-    app.te
+BOARD_SEPOLICY_UNION += \
+    device.te \
+    bdaddr_read.te \
+    file_contexts \
+    mediaserver.te \
+    orientationd.te \
+    geomagneticd.te \
+    property_contexts \
+    pvrsrvinit.te \
+    rild.te
 
 # Hardware tunables
 # BOARD_HARDWARE_CLASS := device/samsung/aries-common/cmhw/

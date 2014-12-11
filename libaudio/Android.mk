@@ -25,6 +25,8 @@ LOCAL_C_INCLUDES += \
 	$(call include-path-for, audio-effects) \
 	$(call include-path-for, audio-utils)
 
+LOCAL_CFLAGS += -USE_OLD_LIBAUDIO=1
+
 ifeq ($(BOARD_USES_FROYO_RILCLIENT),true)
   LOCAL_CFLAGS += -DUSES_FROYO_RILCLIENT
 endif

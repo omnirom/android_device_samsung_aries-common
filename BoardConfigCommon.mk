@@ -83,7 +83,6 @@ BOARD_NAND_PAGE_SIZE := 4096
 BOARD_NAND_SPARE_SIZE := 128
 BOARD_KERNEL_BASE := 0x32000000
 BOARD_KERNEL_PAGESIZE := 4096
-BOARD_KERNEL_CMDLINE := console=ttyFIQ0,115200 init=/init no_console_suspend
 
 BOARD_BOOTIMAGE_PARTITION_SIZE := 7864320
 BOARD_SYSTEMIMAGE_PARTITION_SIZE := 629145600
@@ -171,9 +170,37 @@ BOARD_SCREENRECORD_LANDSCAPE_ONLY := true
 BOARD_SEPOLICY_DIRS += \
     device/samsung/aries-common/sepolicy
 
-BOARD_SEPOLICY_REPLACE += \
-    domain.te \
-    app.te
+BOARD_SEPOLICY_UNION += \
+    bdaddr_read.te \
+    bluetooth.te \
+    debuggerd.te \
+    device.te \
+    file.te \
+    file_contexts \
+    geomagneticd.te \
+    gpsd.te \
+    init.te \
+    kernel.te \
+    lvm.te \
+    mediaserver.te \
+    netd.te \
+    orientationd.te \
+    platform_app.te \
+    property_contexts \
+    pvrsrvinit.te \
+    radio.te \
+    recovery.te \
+    rild.te \
+    sdcardd.te \
+    servicemanager.te \
+    shared_relro.te \
+    shell.te \
+    surfaceflinger.te \
+    system_app.te \
+    system_server.te \
+    ueventd.te \
+    untrusted_app.te \
+    zygote.te
 
 # Include aries specific stuff
 -include device/samsung/aries-common/Android.mk

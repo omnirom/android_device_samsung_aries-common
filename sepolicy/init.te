@@ -1,0 +1,18 @@
+###########################
+# OmniROM Aries sepolicy
+#
+allow init self:capability { sys_module };
+allow init self:process { execmem };
+
+# allow init rootfs:file { create append unlink };
+
+# allow init kmem_device:chr_file { getattr };
+
+allow init device:blk_file { create setattr relabelfrom };
+
+allow init block_device:blk_file { relabelto };
+
+allow init app_data_file:{ file lnk_file dir } { read getattr relabelfrom lock };
+
+allow init radio_device:lnk_file { relabelto };
+

@@ -1,0 +1,6 @@
+###########################
+# OmniROM Aries sepolicy
+#
+
+# DSP Manager
+type sysfs_dspmanager, fs_type, sysfs_type;

@@ -1,0 +1,9 @@
+###########################
+# OmniROM Aries sepolicy
+#
+type lvm, domain;
+
+allow lvm init:file { create append unlink };
+allow lvm init:chr_file { getattr };
+allow lvm init:blk_file { create setattr };
+

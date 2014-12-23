@@ -1,0 +1,4 @@
+###########################
+# OmniROM Aries sepolicy
+#
+allow radio system_data_file:file { lock };

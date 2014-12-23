@@ -1,0 +1,7 @@
+###########################
+# OmniROM Aries sepolicy
+#
+
+allow recovery selinuxfs:file { write };
+
+

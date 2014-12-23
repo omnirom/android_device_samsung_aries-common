@@ -1,0 +1,7 @@
+###########################
+# OmniROM Aries sepolicy
+#
+allow system_app sysfs_ksm:dir { search };
+allow system_app sysfs_writable:file { getattr write open };
+allow system_app system_data_file:dir { remove_name add_name };
+allow system_app system_data_file:file { unlink create write };

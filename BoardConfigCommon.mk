@@ -164,9 +164,26 @@ BOARD_SCREENRECORD_LANDSCAPE_ONLY := true
 BOARD_SEPOLICY_DIRS += \
     device/samsung/aries-common/sepolicy
 
-BOARD_SEPOLICY_REPLACE += \
-    domain.te \
-    app.te
+BOARD_SEPOLICY_UNION += \
+    bdaddr_read.te \
+    bluetooth.te \
+    device.te \
+    geomagneticd.te \
+    gpsd.te \
+    init.te \
+    lvm.te \
+    mediaserver.te \
+    orientationd.te \
+    property_contexts \
+    pvrsrvinit.te \
+    surfaceflinger.te \
+    system_app.te \
+    radio.te \
+    recovery.te \
+    rild.te \
+    ueventd.te \
+    untrusted_app.te \
+    file_contexts
 
 # Include aries specific stuff
 -include device/samsung/aries-common/Android.mk

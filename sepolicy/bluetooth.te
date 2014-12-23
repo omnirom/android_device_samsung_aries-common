@@ -1,0 +1,4 @@
+###########################
+# OmniROM Aries sepolicy
+#
+allow bluetooth sysfs:file { write };

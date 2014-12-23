@@ -1,0 +1,5 @@
+###########################
+# OmniROM Aries sepolicy
+#
+allow gpsd self:process { execmem };
+allow gpsd properties_device:file { execute };

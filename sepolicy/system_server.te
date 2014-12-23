@@ -1,0 +1,5 @@
+###########################
+# OmniROM Aries sepolicy
+#
+allow system_server zygote:binder { call transfer };
+allow system_server default_prop:property_service { set };

@@ -1,0 +1,6 @@
+###########################
+# OmniROM Aries sepolicy
+#
+
+# DSP Manager
+allow untrusted_app sysfs_dspmanager:file { read open getattr write };

@@ -218,7 +218,11 @@ PRODUCT_PROPERTY_OVERRIDES += \
 # before they have a chance to cause problems.
 # Default=true for development builds, set by android buildsystem.
 PRODUCT_PROPERTY_OVERRIDES += \
-    ro.kernel.android.checkjni=0
+    ro.kernel.android.checkjni=0 \
+    dalvik.vm.dex2oat-flags "--compiler-filter=interpret-only" \
+    dalvik.vm.image-dex2oat-flags "" \
+    dalvik.vm.profiler=1 \
+    dalvik.vm.isa.arm.features=lpae
 
 # Set default USB interface and default to internal SD as /sdcard
 PRODUCT_DEFAULT_PROPERTY_OVERRIDES += \

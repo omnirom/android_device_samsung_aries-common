@@ -173,7 +173,7 @@ format_partitions() {
     /lvm/sbin/lvm lvcreate -l 100%FREE -n userdata lvpool;
 
     # format partitions
-    /tmp/make_ext4fs -b 4096 -g 32768 -i 7680 -I 256 -a /data /dev/lvpool/system;
+    /tmp/make_ext4fs -b 4096 -g 32768 -i 7680 -I 256 -a /system /dev/lvpool/system;
     /tmp/make_ext4fs -b 4096 -g 32768 -i 8192 -I 256 -a /data /dev/lvpool/userdata;
     /tmp/busybox umount -l /datadata
     /tmp/erase_image datadata

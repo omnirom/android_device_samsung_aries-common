@@ -69,8 +69,8 @@ BOARD_KERNEL_PAGESIZE := 4096
 BOARD_KERNEL_CMDLINE := console=ttyFIQ0,115200 androidboot.selinux=permissive init=/init no_console_suspend
 
 BOARD_BOOTIMAGE_PARTITION_SIZE := 7864320
-BOARD_SYSTEMIMAGE_PARTITION_SIZE := 419430400
-BOARD_USERDATAIMAGE_PARTITION_SIZE := 2013265920
+BOARD_SYSTEMIMAGE_PARTITION_SIZE := 629145600
+BOARD_USERDATAIMAGE_PARTITION_SIZE := 1379926016
 BOARD_FLASH_BLOCK_SIZE := 4096
 
 # Connectivity - Wi-Fi
@@ -121,6 +121,8 @@ BOARD_USES_SKTEXTBOX := true
 # Hardware rendering
 USE_OPENGL_RENDERER := true
 
+BOARD_EGL_CFG := device/samsung/aries-common/egl.cfg
+
 # TARGET_DISABLE_TRIPLE_BUFFERING can be used to disable triple buffering
 # on per target basis. On crespo it is possible to do so in theory
 # to save memory, however, there are currently some limitations in the
@@ -154,7 +156,7 @@ BOARD_SEPOLICY_UNION += \
     pvrsrvinit.te \
     rild.te \
     tvouthack.te \
-    tvoutserver.te \
+    tvoutserver.te
 
 # Hardware tunables
 # BOARD_HARDWARE_CLASS := device/samsung/aries-common/cmhw/

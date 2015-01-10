@@ -40,11 +40,6 @@
 # application settings that are stored in resourced.
 DEVICE_PACKAGE_OVERLAYS := device/samsung/aries-common/overlay
 
-# These are the hardware-specific configuration files
-PRODUCT_COPY_FILES := \
-    device/samsung/aries-common/egl.cfg:system/lib/egl/egl.cfg \
-    device/samsung/aries-common/mxt224_ts_input.idc:system/usr/idc/mxt224_ts_input.idc
-
 # Init files
 PRODUCT_COPY_FILES += \
     device/samsung/aries-common/init.aries.rc:root/init.aries.rc \
@@ -61,16 +56,18 @@ PRODUCT_COPY_FILES += \
     device/samsung/aries-common/updater.sh:updater.sh \
     device/samsung/aries-common/twrp.fstab:recovery/root/etc/twrp.fstab
 
-# Prebuilt kl keymaps
+# Prebuilt kl and kcm keymaps
 PRODUCT_COPY_FILES += \
     device/samsung/aries-common/cypress-touchkey.kl:system/usr/keylayout/cypress-touchkey.kl \
+    device/samsung/aries-common/cypress-touchkey.kcm:system/usr/keychars/cypress-touchkey.kcm \
     device/samsung/aries-common/sec_jack.kl:system/usr/keylayout/sec_jack.kl \
-    device/samsung/aries-common/s3c-keypad.kl:system/usr/keylayout/s3c-keypad.kl
+    device/samsung/aries-common/sec_jack.kcm:system/usr/keychars/sec_jack.kcm \
+    device/samsung/aries-common/s3c-keypad.kl:system/usr/keylayout/s3c-keypad.kl \
+    device/samsung/aries-common/s3c-keypad.kcm:system/usr/keychars/s3c-keypad.kcm
 
-# Generated kcm keymaps
-PRODUCT_PACKAGES := \
-    cypress-touchkey.kcm \
-    s3c-keypad.kcm
+# Input device calibration files
+PRODUCT_COPY_FILES += \
+    device/samsung/aries-common/mxt224_ts_input.idc:system/usr/idc/mxt224_ts_input.idc
 
 # Filesystem management tools
 PRODUCT_PACKAGES += \
@@ -170,8 +167,6 @@ PRODUCT_PROPERTY_OVERRIDES := \
     debug.hwui.render_dirty_regions=false \
     ro.zygote.disable_gl_preload=true
 
-PRODUCT_TAGS += dalvik.gc.type-precise
-
 # Support for Browser's saved page feature. This allows
 # for pages saved on previous versions of the OS to be
 # viewed on the current OS.
@@ -195,10 +190,7 @@ PRODUCT_PROPERTY_OVERRIDES += \
     ro.phone_storage=1 \
     ro.additionalmounts=/storage/sdcard1 \
     ro.config.low_ram=true \
-    ro.ksm.default=1 \
-    setenforce=0 \
-    ro.boot.selinux=0 \
-    selinux.reload_policy=0
+    ro.ksm.default=1
 
 PRODUCT_PROPERTY_OVERRIDES += \
     camera2.portability.force_api=1
@@ -213,16 +205,25 @@ PRODUCT_PROPERTY_OVERRIDES += \
     ro.com.google.locationfeatures=1 \
     ro.com.google.networklocation=1
 
+# We have sacrificed /cache for a larger /system, so it's not large enough for dalvik cache
+PRODUCT_PROPERTY_OVERRIDES += \
+    dalvik.vm.dexopt-data-only=1
+
 # Extended JNI checks
-# The extended JNI checks will cause the system to run more slowly, but they can spot a variety of nasty bugs
+# The extended JNI checks will cause the system to run more slowly,
+# but they can spot a variety of nasty bugs
 # before they have a chance to cause problems.
 # Default=true for development builds, set by android buildsystem.
 PRODUCT_PROPERTY_OVERRIDES += \
-    ro.kernel.android.checkjni=0
+    ro.kernel.android.checkjni=0 \
+    dalvik.vm.checkjni=false
 
 # Set default USB interface and default to internal SD as /sdcard
 PRODUCT_DEFAULT_PROPERTY_OVERRIDES += \
     persist.sys.usb.config=mtp
+
+# we have enough storage space to hold precise GC data
+PRODUCT_TAGS += dalvik.gc.type-precise
 
 include frameworks/native/build/phone-hdpi-512-dalvik-heap.mk
 

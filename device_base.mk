@@ -43,6 +43,7 @@ DEVICE_PACKAGE_OVERLAYS := device/samsung/aries-common/overlay
 # Init files
 PRODUCT_COPY_FILES += \
     device/samsung/aries-common/init.aries.rc:root/init.aries.rc \
+    device/samsung/aries-common/init.trace.rc:root/init.trace.rc \
     device/samsung/aries-common/init.aries.gps.rc:root/init.aries.gps.rc \
     device/samsung/aries-common/init.aries.usb.rc:root/init.aries.usb.rc \
     device/samsung/aries-common/init.recovery.aries.rc:root/init.recovery.aries.rc \
@@ -51,6 +52,8 @@ PRODUCT_COPY_FILES += \
     device/samsung/aries-common/lpm.rc:root/lpm.rc \
     device/samsung/aries-common/ueventd.aries.rc:root/ueventd.aries.rc \
     device/samsung/aries-common/setupdatadata.sh:root/sbin/setupdatadata.sh \
+    device/samsung/aries-common/bml_over_mtd.sh:bml_over_mtd.sh \
+    device/samsung/aries-common/updater.sh:updater.sh \
     device/samsung/aries-common/zram-init.sh:root/sbin/zram-init.sh \
     device/samsung/aries-common/twrp.fstab:recovery/root/etc/twrp.fstab
 
@@ -187,6 +190,10 @@ PRODUCT_PROPERTY_OVERRIDES += \
     ro.com.google.locationfeatures=1 \
     ro.com.google.networklocation=1
 
+# We have sacrificed /cache for a larger /system, so it's not large enough for dalvik cache
+PRODUCT_PROPERTY_OVERRIDES += \
+    dalvik.vm.dexopt-data-only=1
+
 # Extended JNI checks
 # The extended JNI checks will cause the system to run more slowly,
 # but they can spot a variety of nasty bugs
@@ -196,25 +203,13 @@ PRODUCT_PROPERTY_OVERRIDES += \
     ro.kernel.android.checkjni=0 \
     dalvik.vm.checkjni=false
 
-# Override /proc/sys/vm/dirty_ratio on UMS
-PRODUCT_PROPERTY_OVERRIDES += \
-    ro.vold.umsdirtyratio=20
-
-# We have sacrificed /cache for a larger /system, so it's not large enough for dalvik cache
-PRODUCT_PROPERTY_OVERRIDES += \
-    dalvik.vm.dexopt-data-only=1
-
 # Set default USB interface and default to internal SD as /sdcard
 PRODUCT_DEFAULT_PROPERTY_OVERRIDES += \
-    persist.sys.usb.config=mtp \
-    persist.sys.vold.switchexternal=1
+    persist.sys.usb.config=mtp
 
-include frameworks/native/build/phone-hdpi-512-dalvik-heap.mk
-
-# We have enough storage space to hold precise GC data
+# we have enough storage space to hold precise GC data
 PRODUCT_TAGS += dalvik.gc.type-precise
 
-PRODUCT_COPY_FILES += \
-    device/samsung/aries-common/updater.sh:updater.sh
+include frameworks/native/build/phone-hdpi-512-dalvik-heap.mk
 
 $(call inherit-product-if-exists, hardware/broadcom/wlan/bcmdhd/firmware/bcm4329/device-bcm.mk)

@@ -29,11 +29,10 @@ TARGET_ARCH_VARIANT := armv7-a-neon
 TARGET_ARCH_VARIANT_CPU := cortex-a8
 TARGET_CPU_VARIANT := cortex-a8
 
-# Non PIE verification
-TARGET_ENABLE_NON_PIE_SUPPORT := true
-
-# MD5
+# Bionic stuff
 TARGET_NEEDS_BIONIC_MD5 := true
+TARGET_NEEDS_BIONIC_PRELINK_SUPPORT := true
+TARGET_ENABLE_NON_PIE_SUPPORT := true
 
 # RIL
 BOARD_RIL_CLASS := ../../../hardware/samsung/exynos3/s5pc110/ril/

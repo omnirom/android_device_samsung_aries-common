@@ -32,6 +32,9 @@ TARGET_CPU_VARIANT := cortex-a8
 # Non PIE verification
 TARGET_ENABLE_NON_PIE_SUPPORT := true
 
+# MD5
+BOARD_USES_BIONIC_MD5 := true
+
 # RIL
 BOARD_RIL_CLASS := ../../../hardware/samsung/exynos3/s5pc110/ril/
 

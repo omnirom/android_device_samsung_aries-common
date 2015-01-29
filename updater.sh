@@ -27,8 +27,6 @@ export PATH=/:/sbin:/system/xbin:/system/bin:/tmp:${PATH}
 
 # 600MB
 SYSTEM_SIZE='629145600';
-# 192MB
-SWAP_SIZE='201326592';
 
 # write logs to /tmp
 set_log() {
@@ -169,7 +167,6 @@ warn_repartition() {
 format_partitions() {
     # create lvm partitions
     /lvm/sbin/lvm lvcreate -L ${SYSTEM_SIZE}B -n system lvpool;
-    /lvm/sbin/lvm lvcreate -L ${SWAP_SIZE}B -n swap lvpool;
     /lvm/sbin/lvm lvcreate -l 100%FREE -n userdata lvpool;
 
     # format partitions
@@ -352,8 +349,7 @@ elif /tmp/busybox test -e /dev/block/mtdblock0 ; then
 
     # check lvm resize
     if /tmp/busybox test -e /dev/lvpool/system ; then
-        if [ "$(/tmp/busybox blockdev --getsize64 /dev/mapper/lvpool-system)" != "${SYSTEM_SIZE}" ] || \
-           [ "$(/tmp/busybox blockdev --getsize64 /dev/mapper/lvpool-swap)" != "${SWAP_SIZE}" ] ; then
+        if [ "$(/tmp/busybox blockdev --getsize64 /dev/mapper/lvpool-system)" != "${SYSTEM_SIZE}" ] ; then
             warn_repartition;
             setup_lvm_partitions;
             format_partitions;

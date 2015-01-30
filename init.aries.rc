@@ -207,9 +207,6 @@ on post-fs-data
 #   Setup /datadata
     exec /sbin/setupdatadata.sh
 
-#   zram init
-    exec /sbin/zram-init.sh
-
 #   Wi-Fi
     mkdir /data/misc/wifi/sockets 0770 wifi wifi
     mkdir /data/misc/dhcp 0770 dhcp dhcp

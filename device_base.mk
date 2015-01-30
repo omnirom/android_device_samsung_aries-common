@@ -54,7 +54,6 @@ PRODUCT_COPY_FILES += \
     device/samsung/aries-common/setupdatadata.sh:root/sbin/setupdatadata.sh \
     device/samsung/aries-common/bml_over_mtd.sh:bml_over_mtd.sh \
     device/samsung/aries-common/updater.sh:updater.sh \
-    device/samsung/aries-common/zram-init.sh:root/sbin/zram-init.sh \
     device/samsung/aries-common/twrp.fstab:recovery/root/etc/twrp.fstab
 
 # Prebuilt kl and kcm keymaps

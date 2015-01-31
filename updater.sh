@@ -220,7 +220,8 @@ elif /tmp/busybox test -e /dev/block/mtdblock0 ; then
 
     # Resize partitions
     # (For first install, this will get skipped because device doesn't exist)
-    if /tmp/busybox test `/tmp/busybox blockdev --getsize64 /dev/mapper/lvpool-system` -lt $SYSTEM_SIZE ; then
+    if [ "$(/tmp/busybox blockdev --getsize64 /dev/mapper/lvpool-system)" != "${SYSTEM_SIZE}" ] || \
+       /tmp/busybox test -e /dev/lvpool/swap ; then
         warn_repartition
         /lvm/sbin/lvm lvremove -f lvpool
         format_partitions

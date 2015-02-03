@@ -59,8 +59,7 @@ on boot
 
 #   Swap parameters
     write /proc/sys/vm/page-cluster 0
-    write /proc/sys/vm/vfs_cache_pressure 50
-    write /proc/sys/vm/swappiness 70
+    write /proc/sys/vm/swappiness 60
     write /proc/sys/vm/dirty_expire_centisecs 500
     write /proc/sys/vm/dirty_writeback_centisecs 1000
     write /proc/sys/vm/dirty_background_ratio 5

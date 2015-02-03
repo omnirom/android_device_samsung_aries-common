@@ -109,7 +109,6 @@ TARGET_USE_CUSTOM_LUN_FILE_PATH := "/sys/devices/platform/s3c-usbgadget/gadget/l
 ifeq ($(HOST_OS),linux)
     WITH_DEXPREOPT := true
 endif
-DONT_DEXPREOPT_PREBUILTS := true
 
 # Recovery
 TARGET_USERIMAGES_USE_EXT4 := true

@@ -129,8 +129,7 @@ BOARD_CHARGER_DIM_SCREEN_BRIGHTNESS := true
 BOARD_CUSTOM_GRAPHICS := ../../../device/samsung/aries-common/recovery/graphics.c
 
 # Boot Animation
-TARGET_BOOTANIMATION_PRELOAD := true
-TARGET_BOOTANIMATION_TEXTURE_CACHE := true
+TARGET_BOOTANIMATION_TEXTURE_CACHE := false
 TARGET_BOOTANIMATION_USE_RGB565 := true
 
 # Hardware rendering

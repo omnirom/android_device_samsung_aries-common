@@ -30,6 +30,7 @@ TARGET_CPU_ABI2 := armeabi
 TARGET_ARCH_VARIANT := armv7-a-neon
 TARGET_ARCH_VARIANT_CPU := cortex-a8
 TARGET_CPU_VARIANT := cortex-a8
+TARGET_CPU_SMP := false
 
 # Bionic stuff
 TARGET_NEEDS_BIONIC_MD5 := true

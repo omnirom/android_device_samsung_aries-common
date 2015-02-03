@@ -2,6 +2,12 @@ on early-init
 
     start ueventd
 
+    # set up lvm volumes
+    exec /lvm/sbin/lvm vgscan --mknodes --ignorelockingfailure
+    exec /lvm/sbin/lvm vgchange -aly --ignorelockingfailure
+    restorecon /dev/mapper/lvpool-system
+    restorecon /dev/mapper/lvpool-userdata
+
 on init
 
     export PATH /sbin:/vendor/bin:/system/sbin:/system/bin:/system/xbin
@@ -10,31 +16,24 @@ on init
     export ANDROID_DATA /data
     export EXTERNAL_STORAGE /sdcard
 
-    symlink /system/etc /etc
-
     mkdir /sdcard
     mkdir /system
     mkdir /data
     mkdir /cache
     mkdir /tmp
     mkdir /mnt 0775 root root
+    mkdir /data/log 0777
 
 on fs
 
-    # set up lvm volumes
-    exec /lvm/sbin/lvm vgscan --mknodes --ignorelockingfailure
-    exec /lvm/sbin/lvm vgchange -aly --ignorelockingfailure
-    restorecon /dev/mapper/lvpool-system
-    restorecon /dev/mapper/lvpool-userdata
-
+    mount_all fstab.aries
     mount tmpfs tmpfs /tmp
-    mount ext4 /dev/lvpool/system /system
 
-    mkdir /data/log 0777
     chmod 0666 /dev/log/radio
     chmod 0666 /dev/log/main
     chmod 0666 /dev/log/event
-    chmod 0777 /aries_charger
+    chmod 0775 /sbin/healthd
+    symlink /system/etc /etc
 
 on post-fs
 
@@ -45,11 +44,12 @@ on boot
 
     class_start default
 
-    service debuggerd /system/bin/debuggerd
+service debuggerd /system/bin/debuggerd
 
-    service ueventd /sbin/ueventd
-        critical
+service ueventd /sbin/ueventd
+    critical
 
-    service battery_charger /aries_charger
-        user root
-
+service charger /sbin/healthd -c
+    critical
+    user root
+    seclabel u:r:healthd:s0

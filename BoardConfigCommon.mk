@@ -120,13 +120,9 @@ TARGET_RECOVERY_FSTAB := device/samsung/aries-common/fstab.aries
 RECOVERY_FSTAB_VERSION := 2
 
 # Open Source Charging Mode
-BOARD_POWER_SUPPLY_PATH := /sys/class/power_supply
-BOARD_BATTERY_SYSFS_PATH := $(BOARD_POWER_SUPPLY_PATH)/battery
-BOARD_AC_SYSFS_PATH := $(BOARD_POWER_SUPPLY_PATH)/ac
-BOARD_USB_SYSFS_PATH := $(BOARD_POWER_SUPPLY_PATH)/usb
+BOARD_CHARGER_DISABLE_INIT_BLANK := true
 BOARD_CHARGER_ENABLE_SUSPEND := true
-BOARD_CHARGER_DIM_SCREEN_BRIGHTNESS := true
-BOARD_CUSTOM_GRAPHICS := ../../../device/samsung/aries-common/recovery/graphics.c
+BOARD_CHARGER_RES := device/samsung/aries-common/charger/res
 
 # Boot Animation
 TARGET_BOOTANIMATION_TEXTURE_CACHE := false

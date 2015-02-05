@@ -199,7 +199,8 @@ PRODUCT_PROPERTY_OVERRIDES += \
     ro.ksm.default=1
 
 PRODUCT_PROPERTY_OVERRIDES += \
-    camera2.portability.force_api=1
+    camera2.portability.force_api=1 \
+    camera2.port.operation_time_ms=5000
 
 # SGX540 is slower with the scissor optimization enabled
 PRODUCT_PROPERTY_OVERRIDES += \

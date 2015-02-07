@@ -38,6 +38,7 @@
 #include <stdbool.h>
 #include <stdio.h>
 #include <stdlib.h>
+#include <unistd.h>
 #include <string.h>
 #include <sys/poll.h>
 #include <sys/stat.h>
@@ -76,22 +77,17 @@
 
 #define BATTERY_UNKNOWN_TIME    (2 * MSEC_PER_SEC)
 #define POWER_ON_KEY_TIME       (2 * MSEC_PER_SEC)
-#define UNPLUGGED_SHUTDOWN_TIME (20 * MSEC_PER_SEC)
+#define UNPLUGGED_SHUTDOWN_TIME (1 * MSEC_PER_SEC)
 
 #define BATTERY_FULL_THRESH     95
+#define SCREEN_ON_BATTERY_THRESH 0
 
 #define LAST_KMSG_PATH          "/proc/last_kmsg"
 #define LAST_KMSG_MAX_SZ        (32 * 1024)
 
-#if 1
 #define LOGE(x...) do { KLOG_ERROR("charger", x); } while (0)
 #define LOGI(x...) do { KLOG_INFO("charger", x); } while (0)
 #define LOGV(x...) do { KLOG_DEBUG("charger", x); } while (0)
-#else
-#define LOG_NDEBUG 0
-#define LOG_TAG "charger"
-#include <cutils/log.h>
-#endif
 
 enum supplies {NONE,AC,USB,BATTERY};
 
@@ -184,6 +180,7 @@ static struct charger charger_state;
 
 static int char_width;
 static int char_height;
+static bool minui_inited;
 
 /* current time in milliseconds */
 static int64_t curr_time_ms(void)
@@ -367,9 +364,9 @@ static int update_supply(struct charger *charger)
     if (charger->online!=online) {
         LOGI("Charger online from %d to %d\t",charger->online,online);
         if (online==0)
-			LOGI("Disconnected\n");
+            LOGI("Disconnected\n");
         else
-			LOGI("Reconnected\n");
+            LOGI("Reconnected\n");
     }
 
     charger->online = online;
@@ -393,30 +390,44 @@ static void check_status(struct charger *charger, int64_t now)
     return;
 }
 
-static int request_suspend(bool enable)
+#if defined DIM_SCREEN && defined BRIGHTNESS_PATH
+static int set_backlight_on(void)
 {
     int fd;
-    if (enable) {
-        gr_fb_blank(true);
-#ifdef CHARGER_ENABLE_SUSPEND
-        return autosuspend_enable();
-#elif defined DIM_SCREEN && defined BRIGHTNESS_PATH
-        fd = open(BRIGHTNESS_PATH, O_WRONLY);
-        write(fd,"20",strlen("20"));
-        close(fd);
-        return 0;
-#endif
-    }
-    gr_fb_blank(false);
-#ifdef CHARGER_ENABLE_SUSPEND
-    return autosuspend_disable();
-#elif defined DIM_SCREEN && defined BRIGHTNESS_PATH
+    char buffer[10];
+
     fd = open(BRIGHTNESS_PATH, O_WRONLY);
-    write(fd, MAX_BRIGHTNESS, strlen(MAX_BRIGHTNESS));
+    if (fd < 0) {
+        LOGE("Could not open backlight node : %s\n", strerror(errno));
+        return 0;
+    }
+
+    LOGV("Enabling backlight\n");
+
+    snprintf(buffer, sizeof(buffer), "%d\n", MAX_BRIGHTNESS);
+
+    if (write(fd, buffer,strlen(buffer)) < 0)
+        LOGE("Could not write to backlight node : %s\n", strerror(errno));
+
     close(fd);
     return 0;
-#endif
 }
+#endif
+
+#ifdef CHARGER_ENABLE_SUSPEND
+static int request_suspend(bool action)
+{
+    if (action)
+        return autosuspend_enable();
+    else
+        return autosuspend_disable();
+}
+#else
+static int request_suspend(bool action)
+{
+    return 0;
+}
+#endif
 
 static int draw_text(const char *str, int x, int y)
 {
@@ -530,6 +541,27 @@ static void update_screen_state(struct charger *charger, int64_t now)
     if (!batt_anim->run || now < charger->next_screen_transition)
         return;
 
+    if (!minui_inited) {
+        int batt_cap = get_battery_capacity(charger);
+
+        if (batt_cap < SCREEN_ON_BATTERY_THRESH) {
+            LOGV("[%lld] level %d, leave screen off\n", now, batt_cap);
+            batt_anim->run = false;
+            charger->next_screen_transition = -1;
+            if (charger->online > 0)
+                request_suspend(true);
+            return;
+        }
+
+        gr_init();
+        gr_font_size(&char_width, &char_height);
+
+#ifndef CHARGER_DISABLE_INIT_BLANK
+        gr_fb_blank(true);
+#endif
+        minui_inited = true;
+    }
+
     /* animation is over, blank screen and leave */
     if (batt_anim->cur_cycle == batt_anim->num_cycles) {
         reset_animation(batt_anim);
@@ -552,7 +584,6 @@ static void update_screen_state(struct charger *charger, int64_t now)
         batt_cap = get_battery_capacity(charger);
         if (batt_cap >= 0 && batt_anim->num_frames != 0) {
             int i;
-
             /* find first frame given current capacity */
             for (i = 1; i < batt_anim->num_frames; i++) {
                 if (batt_cap < batt_anim->frames[i].min_capacity)
@@ -568,8 +599,12 @@ static void update_screen_state(struct charger *charger, int64_t now)
     }
 
     /* unblank the screen on first cycle */
-    if (batt_anim->cur_cycle == 0)
+    if (batt_anim->cur_cycle == 0) {
+#if defined DIM_SCREEN && defined BRIGHTNESS_PATH
+        set_backlight_on();
+#endif
         gr_fb_blank(false);
+    }
 
     /* draw the new frame (@ cur_frame) */
     redraw_screen(charger);
@@ -682,6 +717,11 @@ static void process_key(struct charger *charger, int code, int64_t now)
                 kick_animation(charger->batt_anim);
             }
         }
+    } else {
+        if (key->pending) {
+            request_suspend(false);
+            kick_animation(charger->batt_anim);
+        }
     }
 
     key->pending = false;
@@ -690,6 +730,7 @@ static void process_key(struct charger *charger, int code, int64_t now)
 static void handle_input_state(struct charger *charger, int64_t now)
 {
     process_key(charger, KEY_POWER, now);
+    process_key(charger, KEY_HOME, now);
 
     if (charger->next_key_check != -1 && now > charger->next_key_check)
         charger->next_key_check = -1;
@@ -746,7 +787,6 @@ static void event_loop(struct charger *charger)
          * screen transitions (animations, etc)
          */
         update_screen_state(charger, now);
-
         wait_next_event(charger, now);
     }
 }
@@ -767,13 +807,10 @@ int main(int argc, char **argv)
 
     LOGI("--------------- STARTING CHARGER MODE ---------------\n");
 
-    gr_init();
-    gr_font_size(&char_width, &char_height);
-
     ev_init(input_callback, charger);
 
     LOGI("Creating surface \n");
-    ret = res_create_surface("charger/battery_fail", &charger->surf_unknown);
+    ret = res_create_display_surface("charger/battery_fail", &charger->surf_unknown);
     if (ret < 0) {
         LOGE("Cannot load image\n");
         charger->surf_unknown = NULL;
@@ -794,19 +831,16 @@ int main(int argc, char **argv)
 
     supplies_list=&supply;
     LOGI("Starting supply init \n");
-    if (init_supplies(charger)==-1)return -1;
+    if (init_supplies(charger)==-1) return -1;
     LOGI("Starting key event callback \n");
     ev_sync_key_state(set_key_callback, charger);
-
-#ifndef CHARGER_DISABLE_INIT_BLANK
-    gr_fb_blank(true);
-#endif
 
     charger->next_screen_transition = now - 1;
     charger->next_key_check = -1;
     reset_animation(charger->batt_anim);
     kick_animation(charger->batt_anim);
 
+    LOGI("Starting event loop\n");
     event_loop(charger);
 
     return 0;

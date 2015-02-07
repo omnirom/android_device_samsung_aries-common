@@ -59,11 +59,9 @@ on boot
 
 #   Swap parameters
     write /proc/sys/vm/page-cluster 0
-    write /proc/sys/vm/swappiness 60
+    write /proc/sys/vm/swappiness 80
     write /proc/sys/vm/dirty_expire_centisecs 500
     write /proc/sys/vm/dirty_writeback_centisecs 1000
-    write /proc/sys/vm/dirty_background_ratio 5
-    write /proc/sys/vm/dirty_ratio 90
 
 #   Prevents permission denied error for telephony
     chmod 0644 /proc/cmdline
@@ -331,6 +329,12 @@ service bdaddr /system/bin/bdaddr_read
 
 on property:ril.bt_macaddr=*
     start bdaddr
+
+# LMK values
+on property:sys.boot_completed=1
+    write /sys/module/lowmemorykiller/parameters/adj 0,1,2,4,7,15
+    write /sys/module/lowmemorykiller/parameters/minfree 2048,4096,8192,16384,24576,32768
+    write /proc/1/oom_adj -16
 
 # bugreport is triggered by holding down volume down, volume up and power
 # service bugreport /system/bin/dumpstate -d -v -o /sdcard/bugreports/bugreport

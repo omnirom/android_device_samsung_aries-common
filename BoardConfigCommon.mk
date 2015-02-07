@@ -127,6 +127,7 @@ BOARD_USB_SYSFS_PATH := $(BOARD_POWER_SUPPLY_PATH)/usb
 BOARD_CHARGER_ENABLE_SUSPEND := true
 BOARD_CHARGER_DIM_SCREEN_BRIGHTNESS := true
 BOARD_CUSTOM_GRAPHICS := ../../../device/samsung/aries-common/recovery/graphics.c
+BOARD_CHARGING_MODE_BOOTING_LPM := /sys/class/power_supply/battery/charging_mode_booting
 
 # Boot Animation
 TARGET_BOOTANIMATION_TEXTURE_CACHE := false

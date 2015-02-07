@@ -38,6 +38,7 @@
 #include <stdbool.h>
 #include <stdio.h>
 #include <stdlib.h>
+#include <unistd.h>
 #include <string.h>
 #include <sys/poll.h>
 #include <sys/stat.h>
@@ -76,7 +77,7 @@
 
 #define BATTERY_UNKNOWN_TIME    (2 * MSEC_PER_SEC)
 #define POWER_ON_KEY_TIME       (2 * MSEC_PER_SEC)
-#define UNPLUGGED_SHUTDOWN_TIME (20 * MSEC_PER_SEC)
+#define UNPLUGGED_SHUTDOWN_TIME (10 * MSEC_PER_SEC)
 
 #define BATTERY_FULL_THRESH     95
 
@@ -367,9 +368,9 @@ static int update_supply(struct charger *charger)
     if (charger->online!=online) {
         LOGI("Charger online from %d to %d\t",charger->online,online);
         if (online==0)
-			LOGI("Disconnected\n");
+            LOGI("Disconnected\n");
         else
-			LOGI("Reconnected\n");
+            LOGI("Reconnected\n");
     }
 
     charger->online = online;
@@ -396,26 +397,35 @@ static void check_status(struct charger *charger, int64_t now)
 static int request_suspend(bool enable)
 {
     int fd;
+    int ret = 0;
+
     if (enable) {
         gr_fb_blank(true);
 #ifdef CHARGER_ENABLE_SUSPEND
-        return autosuspend_enable();
-#elif defined DIM_SCREEN && defined BRIGHTNESS_PATH
+        ret = autosuspend_enable();
+#endif
+#if defined DIM_SCREEN && defined BRIGHTNESS_PATH
         fd = open(BRIGHTNESS_PATH, O_WRONLY);
         write(fd,"20",strlen("20"));
         close(fd);
-        return 0;
 #endif
-    }
-    gr_fb_blank(false);
+    } else {
+        gr_fb_blank(false);
 #ifdef CHARGER_ENABLE_SUSPEND
-    return autosuspend_disable();
-#elif defined DIM_SCREEN && defined BRIGHTNESS_PATH
-    fd = open(BRIGHTNESS_PATH, O_WRONLY);
-    write(fd, MAX_BRIGHTNESS, strlen(MAX_BRIGHTNESS));
-    close(fd);
-    return 0;
+        ret =  autosuspend_disable();
 #endif
+#if defined DIM_SCREEN && defined BRIGHTNESS_PATH
+        fd = open(BRIGHTNESS_PATH, O_WRONLY);
+        write(fd, MAX_BRIGHTNESS, strlen(MAX_BRIGHTNESS));
+        close(fd);
+#endif
+        
+    }
+    sleep(1);
+    if (ret != 0) {
+        LOGE("request suspend error\n");
+    }
+    return ret;
 }
 
 static int draw_text(const char *str, int x, int y)
@@ -535,7 +545,7 @@ static void update_screen_state(struct charger *charger, int64_t now)
         reset_animation(batt_anim);
         charger->next_screen_transition = -1;
         gr_fb_blank(true);
-        LOGV("[%lld] animation done\n", now);
+        LOGI("[%lld] animation done\n", now);
         if (charger->online > 0)
             request_suspend(true);
         return;
@@ -548,11 +558,10 @@ static void update_screen_state(struct charger *charger, int64_t now)
         int batt_cap;
         int ret;
 
-        LOGV("[%lld] animation starting\n", now);
+        LOGI("[%lld] animation starting\n", now);
         batt_cap = get_battery_capacity(charger);
         if (batt_cap >= 0 && batt_anim->num_frames != 0) {
             int i;
-
             /* find first frame given current capacity */
             for (i = 1; i < batt_anim->num_frames; i++) {
                 if (batt_cap < batt_anim->frames[i].min_capacity)
@@ -568,8 +577,10 @@ static void update_screen_state(struct charger *charger, int64_t now)
     }
 
     /* unblank the screen on first cycle */
-    if (batt_anim->cur_cycle == 0)
-        gr_fb_blank(false);
+    if (batt_anim->cur_cycle == 0) {
+        request_suspend(false);
+        sleep(2);
+    }
 
     /* draw the new frame (@ cur_frame) */
     redraw_screen(charger);
@@ -578,7 +589,7 @@ static void update_screen_state(struct charger *charger, int64_t now)
      * the cycle counter and exit
      */
     if (batt_anim->num_frames == 0 || batt_anim->capacity < 0) {
-        LOGV("[%lld] animation missing or unknown battery status\n", now);
+        LOGI("[%lld] animation missing or unknown battery status\n", now);
         charger->next_screen_transition = now + BATTERY_UNKNOWN_TIME;
         batt_anim->cur_cycle++;
         return;
@@ -628,12 +639,12 @@ static int set_key_callback(int code, int value, void *data)
     charger->keys[code].down = down;
     charger->keys[code].pending = true;
     if (down) {
-        LOGV("[%lld] key[%d] down\n", now, code);
+        LOGI("[%lld] key[%d] down\n", now, code);
     } else {
         int64_t duration = now - charger->keys[code].timestamp;
         int64_t secs = duration / 1000;
         int64_t msecs = duration - secs * 1000;
-        LOGV("[%lld] key[%d] up (was down for %lld.%lldsec)\n", now,
+        LOGI("[%lld] key[%d] up (was down for %lld.%lldsec)\n", now,
             code, secs, msecs);
     }
 
@@ -682,6 +693,11 @@ static void process_key(struct charger *charger, int code, int64_t now)
                 kick_animation(charger->batt_anim);
             }
         }
+    } else {
+        if (key->pending) {
+            request_suspend(false);
+            kick_animation(charger->batt_anim);
+        }
     }
 
     key->pending = false;
@@ -690,6 +706,7 @@ static void process_key(struct charger *charger, int code, int64_t now)
 static void handle_input_state(struct charger *charger, int64_t now)
 {
     process_key(charger, KEY_POWER, now);
+    process_key(charger, KEY_HOME, now);
 
     if (charger->next_key_check != -1 && now > charger->next_key_check)
         charger->next_key_check = -1;
@@ -739,14 +756,13 @@ static void event_loop(struct charger *charger)
 
     while (true) {
         now = curr_time_ms();
-        LOGV("[%lld] event_loop()\n", now);
+        LOGI("[%lld] event_loop()\n", now);
         handle_input_state(charger, now);
         check_status(charger,now);
         /* do screen update last in case any of the above want to start
          * screen transitions (animations, etc)
          */
         update_screen_state(charger, now);
-
         wait_next_event(charger, now);
     }
 }
@@ -794,19 +810,21 @@ int main(int argc, char **argv)
 
     supplies_list=&supply;
     LOGI("Starting supply init \n");
-    if (init_supplies(charger)==-1)return -1;
+    if (init_supplies(charger)==-1) return -1;
     LOGI("Starting key event callback \n");
     ev_sync_key_state(set_key_callback, charger);
-
-#ifndef CHARGER_DISABLE_INIT_BLANK
-    gr_fb_blank(true);
-#endif
 
     charger->next_screen_transition = now - 1;
     charger->next_key_check = -1;
     reset_animation(charger->batt_anim);
-    kick_animation(charger->batt_anim);
 
+#ifndef CHARGER_DISABLE_INIT_BLANK
+    request_suspend(false);
+    sleep(2);
+#endif
+
+    kick_animation(charger->batt_anim);
+    LOGI("Starting event loop\n");
     event_loop(charger);
 
     return 0;

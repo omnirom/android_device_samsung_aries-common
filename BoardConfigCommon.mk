@@ -109,6 +109,8 @@ TARGET_USE_CUSTOM_LUN_FILE_PATH := "/sys/devices/platform/s3c-usbgadget/gadget/l
 # Enable dex-preoptimization to speed up first boot sequence
 ifeq ($(HOST_OS),linux)
     WITH_DEXPREOPT := true
+    WITH_DEXPREOPT_BOOT_IMG_ONLY := true
+    DONT_DEXPREOPT_PREBUILTS := true
 endif
 
 # Recovery

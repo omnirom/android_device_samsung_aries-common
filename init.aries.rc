@@ -63,6 +63,10 @@ on boot
     write /proc/sys/vm/dirty_expire_centisecs 500
     write /proc/sys/vm/dirty_writeback_centisecs 1000
 
+#   readahead
+    write /sys/block/mmcblk0/queue/read_ahead_kb 256
+    write /sys/block/mmcblk1/queue/read_ahead_kb 256
+
 #   Prevents permission denied error for telephony
     chmod 0644 /proc/cmdline
 

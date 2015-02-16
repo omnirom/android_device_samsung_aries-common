@@ -58,7 +58,10 @@ on boot
     write /sys/kernel/mm/ksm/run 1
 
 #   Swap parameters
-    write /proc/sys/vm/swappiness 80
+    write /proc/sys/vm/vfs_cache_pressure 85
+    write /proc/sys/vm/swappiness 70
+    write /proc/sys/vm/dirty_ratio 16
+    write /proc/sys/vm/dirty_background_ratio 12
     write /proc/sys/vm/dirty_expire_centisecs 500
     write /proc/sys/vm/dirty_writeback_centisecs 1000
 
@@ -335,9 +338,7 @@ on property:ril.bt_macaddr=*
 
 # LMK values
 on property:sys.boot_completed=1
-    write /sys/module/lowmemorykiller/parameters/adj 0,1,2,4,7,15
     write /sys/module/lowmemorykiller/parameters/minfree 2048,4096,8192,16384,24576,32768
-    write /proc/1/oom_adj -16
 
 # bugreport is triggered by holding down volume down, volume up and power
 # service bugreport /system/bin/dumpstate -d -v -o /sdcard/bugreports/bugreport

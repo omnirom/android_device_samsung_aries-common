@@ -114,6 +114,9 @@ ifeq ($(HOST_OS),linux)
     DONT_DEXPREOPT_PREBUILTS := true
 endif
 
+# ART
+WITH_ART_SMALL_MODE := true
+
 # Recovery
 TARGET_USERIMAGES_USE_EXT4 := true
 TARGET_USERIMAGES_USE_F2FS := true
@@ -138,7 +141,6 @@ TARGET_BOOTANIMATION_USE_RGB565 := true
 
 # Hardware rendering
 USE_OPENGL_RENDERER := true
-
 BOARD_EGL_CFG := device/samsung/aries-common/egl.cfg
 
 # TARGET_DISABLE_TRIPLE_BUFFERING can be used to disable triple buffering

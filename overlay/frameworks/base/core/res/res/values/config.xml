@@ -204,4 +204,7 @@
          on Galaxy S. Let's double this value. -->
     <integer name="config_extraFreeKbytesAbsolute">9000</integer>
 
+    <!-- Enable multi user interface -->
+    <bool name="config_enableMultiUserUI">true</bool>
+
 </resources>

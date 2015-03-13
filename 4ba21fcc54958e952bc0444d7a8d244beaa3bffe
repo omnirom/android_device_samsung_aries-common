@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "6b22818b_39b289e3",
+        "filename": "libaudio/AudioHardware.h",
+        "patchSetId": 1
+      },
+      "lineNbr": 270,
+      "author": {
+        "id": 1000515
+      },
+      "writtenOn": "2015-03-13T22:26:41Z",
+      "side": 1,
+      "message": "I think this line is not required.",
+      "range": {
+        "startLine": 270,
+        "startChar": 25,
+        "endLine": 270,
+        "endChar": 48
+      },
+      "revId": "4ba21fcc54958e952bc0444d7a8d244beaa3bffe",
+      "serverId": "56841c99-7c94-43d4-bf0b-cb4707e66d55",
+      "unresolved": false
+    }
+  ]
+}

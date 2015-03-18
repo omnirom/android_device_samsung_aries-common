@@ -127,6 +127,7 @@ TARGET_RECOVERY_FSTAB := device/samsung/aries-common/fstab.aries
 RECOVERY_FSTAB_VERSION := 2
 
 # Open Source Charging Mode
+BOARD_USES_OWN_CHARGER := true
 BOARD_POWER_SUPPLY_PATH := /sys/class/power_supply
 BOARD_BATTERY_SYSFS_PATH := $(BOARD_POWER_SUPPLY_PATH)/battery
 BOARD_AC_SYSFS_PATH := $(BOARD_POWER_SUPPLY_PATH)/ac

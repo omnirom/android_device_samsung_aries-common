@@ -142,7 +142,7 @@ PRODUCT_PACKAGES += \
 
 # Open Source Charging Mode
 PRODUCT_PACKAGES += \
-    aries_charger \
+    healthd \
     aries_charger_res_images
 
 # f2fs

@@ -18,26 +18,26 @@
 -->
 <resources xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
   <string-array name="mdnie_entries">
-    <item>Откл.</item>
-    <item>Режим UI</item>
-    <item>Режим Video</item>
-    <item>Режим Video Warm</item>
-    <item>Режим Video Cold</item>
-    <item>Режим Camera</item>
+    <item>Nonaktif</item>
+    <item>Modus UI</item>
+    <item>Modus Video</item>
+    <item>Video Modus Hangat</item>
+    <item>Video Modus Dingin</item>
+    <item>Modus Kamera</item>
   </string-array>
   <string-array name="backlight_timeout_entries">
-    <item>По-умолч. (1.6 с)</item>
-    <item>0.5 с</item>
-    <item>2 с</item>
-    <item>5 с</item>
-    <item>10 с</item>
-    <item>15 с</item>
-    <item>30 с</item>
-    <item>Никогда</item>
+    <item>Standar (1.6 detik)</item>
+    <item>0.5 detik</item>
+    <item>2 detik</item>
+    <item>5 detik</item>
+    <item>10 detik</item>
+    <item>15 detik</item>
+    <item>30 detik</item>
+    <item>Tidak pernah</item>
   </string-array>
   <string-array name="hspa_entries">
-    <item>Только UMTS</item>
-    <item>Только HSDPA</item>
+    <item>Hanya UMTS</item>
+    <item>Hanya HSDPA</item>
     <item>HSDPA + HSUPA</item>
   </string-array>
   <string-array name="tvout_system_entries">

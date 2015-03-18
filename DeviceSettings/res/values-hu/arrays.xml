@@ -18,26 +18,26 @@
 -->
 <resources xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
   <string-array name="mdnie_entries">
-    <item>Откл.</item>
-    <item>Режим UI</item>
-    <item>Режим Video</item>
-    <item>Режим Video Warm</item>
-    <item>Режим Video Cold</item>
-    <item>Режим Camera</item>
+    <item>Kikapcsolva</item>
+    <item>UI mód</item>
+    <item>Video mód</item>
+    <item>Videó (meleg árnyalat)</item>
+    <item>Videó (hideg árnyalat)</item>
+    <item>Kameramód</item>
   </string-array>
   <string-array name="backlight_timeout_entries">
-    <item>По-умолч. (1.6 с)</item>
-    <item>0.5 с</item>
-    <item>2 с</item>
-    <item>5 с</item>
-    <item>10 с</item>
-    <item>15 с</item>
-    <item>30 с</item>
-    <item>Никогда</item>
+    <item>Alapértelmezett (1.6 mp)</item>
+    <item>0,5 másodperc</item>
+    <item>2 másodperc</item>
+    <item>5 másodperc</item>
+    <item>10 másodperc</item>
+    <item>15 másodperc</item>
+    <item>30 másodperc</item>
+    <item>Soha</item>
   </string-array>
   <string-array name="hspa_entries">
-    <item>Только UMTS</item>
-    <item>Только HSDPA</item>
+    <item>Csak UMTS</item>
+    <item>Csak HSDPA</item>
     <item>HSDPA + HSUPA</item>
   </string-array>
   <string-array name="tvout_system_entries">

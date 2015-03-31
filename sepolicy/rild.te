@@ -12,10 +12,17 @@ allow rild self:netlink_kobject_uevent_socket *;
 allow rild self:socket *;
 allow rild sysfs:file rw_file_perms;
 allow rild block_device:dir { search };
-allow rild net_radio_prop:property_service { set };
 
 # aries rild wants to access /data/data/com.android.providers.telephony/optable.db
-allow rild app_data_file:dir { search open read write add_name remove_name };
-allow rild app_data_file:file create_file_perms;
-allow rild system_data_file:dir rw_dir_perms;
-allow rild system_data_file:file { create read write unlink };
+allow rild datadata_file:file { create_file_perms relabelfrom relabelto };
+allow rild datadata_file:dir { create_dir_perms relabelfrom relabelto };
+allow rild datadata_file:lnk_file create_file_perms;
+
+allow rild app_data_file:file { create_file_perms relabelfrom relabelto };
+allow rild app_data_file:dir { create_dir_perms relabelfrom relabelto };
+allow rild app_data_file:lnk_file create_file_perms;
+
+allow rild system_data_file:file { create_file_perms relabelfrom relabelto };
+allow rild system_data_file:dir { create_dir_perms relabelfrom relabelto };
+allow rild system_data_file:lnk_file create_file_perms;
+

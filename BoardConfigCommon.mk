@@ -180,6 +180,7 @@ BOARD_SEPOLICY_UNION += \
     geomagneticd.te \
     gpsd.te \
     init.te \
+    installd.te \
     kernel.te \
     lvm.te \
     mediaserver.te \

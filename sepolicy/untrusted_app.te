@@ -6,3 +6,12 @@ allow untrusted_app sysfs_dspmanager:file { read open getattr write };
 
 allow untrusted_app rild_file:file r_file_perms;
 allow untrusted_app rild_file:dir { read open search getattr };
+
+allow untrusted_app datadata_file:file { create_file_perms relabelfrom relabelto execute };
+allow untrusted_app datadata_file:dir { create_dir_perms relabelfrom relabelto };
+allow untrusted_app datadata_file:lnk_file create_file_perms;
+
+allow untrusted_app backup_data_file:dir { create_dir_perms };
+
+allow untrusted_app block_device:file r_file_perms;
+allow untrusted_app block_device:dir r_dir_perms;

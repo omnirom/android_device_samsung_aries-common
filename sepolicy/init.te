@@ -8,7 +8,7 @@ allow init self:process { execmem setcurrent };
 
 allow init lvm_placeholder:process { dyntransition };
 
-allow init kmem_device:chr_file create_file_perms;
+# allow init kmem_device:chr_file create_file_perms;
 
 allow init ashmem_device:chr_file { execute };
 

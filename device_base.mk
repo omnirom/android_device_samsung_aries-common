@@ -228,6 +228,10 @@ PRODUCT_PROPERTY_OVERRIDES += \
 PRODUCT_PROPERTY_OVERRIDES += \
     dalvik.vm.dexopt-data-only=1
 
+# SELinux
+PRODUCT_PROPERTY_OVERRIDES += \
+    ro.build.selinux=1
+
 # Extended JNI checks
 # The extended JNI checks will cause the system to run more slowly,
 # but they can spot a variety of nasty bugs

@@ -9,14 +9,26 @@ on fs
 
 #   LVM: set up LVM volumes
     wait /sys/dev/block/179:0
-    exec_context u:r:lvm:s0 /lvm/sbin/lvm vgscan --mknodes --ignorelockingfailure
-    exec_context u:r:lvm:s0 /lvm/sbin/lvm vgchange -aly --ignorelockingfailure
+    start lvm_vgscan
+    start lvm_vgchange
+
     restorecon /dev/mapper/lvpool-system
     restorecon /dev/mapper/lvpool-userdata
 
 on boot
 
-    write /dev/graphics/fb3 1
-
-#   mass_storage support
+    # mass_storage support
     setprop sys.usb.config mass_storage,adb
+
+# LVM services
+# Scan for LVM physical volumes and set up volume groups
+service lvm_vgscan /lvm/sbin/lvm vgscan --mknodes --ignorelockingfailure
+    seclabel u:r:lvm:s0
+    disabled
+    oneshot
+
+# Activate LVM logical volumes in found volume groups
+service lvm_vgchange /lvm/sbin/lvm vgchange -aly --ignorelockingfailure
+    seclabel u:r:lvm:s0
+    disabled
+    oneshot

@@ -251,6 +251,10 @@ PRODUCT_DEX_PREOPT_DEFAULT_FLAGS := \
 
 # we have enough storage space to hold precise GC data
 PRODUCT_TAGS += dalvik.gc.type-precise
+#Disable JIT saves memory
+PRODUCT_PROPERTY_OVERRIDES += dalvik.vm.jit.codecachesize=0
+#Low ram device
+PRODUCT_PROPERTY_OVERRIDES += ro.config.low_ram=true
 
 include frameworks/native/build/phone-hdpi-512-dalvik-heap.mk
 
